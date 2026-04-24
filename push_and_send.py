@@ -82,8 +82,8 @@ def read_template(template_path: Path) -> str:
     return template_path.read_text(encoding="utf-8")
 
 
-def extract_summary_from_html(html_content: str) -> str:
-    """从HTML报告中提取摘要，转换为简洁的Markdown格式"""
+def extract_summary_from_html(html_content: str) -> tuple[str, str]:
+    """从HTML报告中提取标题和摘要，返回(文件名标题, 摘要内容)"""
     
     # 提取日期
     date_match = re.search(r'(\d{4}年\d{1,2}月\d{1,2}日)', html_content)
@@ -96,29 +96,28 @@ def extract_summary_from_html(html_content: str) -> str:
     )
     
     if not cards:
-        return f"今日报告已更新，请点击查看详情"
+        return ("今日报告", f"{date_str} 报告已更新，请点击查看详情")
     
-    # 构建简洁摘要：只显示类目 + 50字内摘要
+    # 构建简洁摘要：类目标题 + 30字内摘要
     lines = []
-    lines.append(f"**{date_str}**")
-    lines.append("")
     
-    # 最多取前4条
-    for i, (title, summary) in enumerate(cards[:4], 1):
-        # 清理标题
+    # 最多取前5条
+    for i, (title, summary) in enumerate(cards[:5], 1):
+        # 清理标题（去掉【】符号让内容更紧凑）
         title = re.sub(r'<[^>]+>', '', title).strip()
-        # 摘要只取前50字
+        title = title.strip('【】')
+        # 摘要只取前30字
         summary = re.sub(r'<[^>]+>', '', summary).strip()
         summary = re.sub(r'\s+', ' ', summary)
-        summary = summary[:50] + "..." if len(summary) > 50 else summary
+        summary = summary[:30] + "..." if len(summary) > 30 else summary
         
-        lines.append(f"{i}. **{title}** {summary}")
+        lines.append(f"{i}. {title}：{summary}")
     
-    return "\n".join(lines)
+    return (f"医院信息化与AI动态 {date_str}", "\n".join(lines))
 
 
-def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str]:
-    """构建HTML报告，返回文件路径和报告摘要"""
+def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str]:
+    """构建HTML报告，返回(文件路径, 标题, 摘要)"""
     today = datetime.now().strftime("%Y-%m-%d")
     report_file = REPO_DIR / "index.html"
     template_file = REPO_DIR / "template.html"
@@ -142,14 +141,14 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str]:
         # 直接复制今日HTML
         html = today_html.read_text(encoding="utf-8")
         logger.info(f"已使用今日报告：{today_html.name}")
-        # 提取摘要供钉钉消息使用
-        report_summary = extract_summary_from_html(html)
+        # 提取标题和摘要
+        report_title, report_summary = extract_summary_from_html(html)
     else:
-        report_summary = f"今日报告已更新，请点击查看详情"
-        title_str = f"【广佛医疗行业动态日报 {today}】"
+        report_title = f"医院信息化与AI动态 {today}"
+        report_summary = "报告已更新，请点击查看详情"
         # 使用模板生成简单页面
         html = template
-        html = html.replace("__TITLE__", title_str)
+        html = html.replace("__TITLE__", report_title)
         html = html.replace("__DATE__", today)
         html = html.replace("__COUNT__", "若干")
         html = html.replace("__CONTENT__", f'<div class="card"><p>{report_summary}</p></div>')
@@ -157,7 +156,7 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str]:
 
     report_file.write_text(html, encoding="utf-8")
     logger.info(f"HTML 报告已生成：{report_file.name}")
-    return report_file, f"【广佛医疗行业动态日报 {today}】", report_summary
+    return report_file, report_title, report_summary
 
 
 def push_to_github(logger: logging.Logger) -> str:
