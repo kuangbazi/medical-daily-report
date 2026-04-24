@@ -173,8 +173,8 @@ def get_token(app_key: str, app_secret: str, logger: logging.Logger) -> str:
 def send_action_card(webhook: str, title: str, summary: str, url: str, logger: logging.Logger):
     """发送 ActionCard 卡片消息"""
     payload = {
-        "msgtype": "action_card",
-        "action_card": {
+        "msgtype": "actionCard",
+        "actionCard": {
             "title": title,
             "markdown": f"## {title}\n\n{summary}\n\n---",
             "single_title": "查看完整报告",
