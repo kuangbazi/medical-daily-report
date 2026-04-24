@@ -82,38 +82,56 @@ def read_template(template_path: Path) -> str:
     return template_path.read_text(encoding="utf-8")
 
 
-def extract_summary_from_html(html_content: str) -> tuple[str, str]:
-    """从HTML报告中提取标题和摘要，返回(文件名标题, 摘要内容)"""
+def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[str, str]:
+    """从HTML报告中提取标题和摘要，返回(标题, 摘要内容)"""
+    
+    # 标题用文件名
+    title = filename if filename else "医院信息化与AI动态日报"
     
     # 提取日期
     date_match = re.search(r'(\d{4}年\d{1,2}月\d{1,2}日)', html_content)
     date_str = date_match.group(1) if date_match else datetime.now().strftime("%Y年%m月%d日")
     
-    # 提取卡片内容：标题 + 摘要
-    cards = re.findall(
-        r'<div class="card">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>',
-        html_content, re.DOTALL
-    )
-    
-    if not cards:
-        return ("今日报告", f"{date_str} 报告已更新，请点击查看详情")
-    
-    # 构建简洁摘要：类目标题 + 30字内摘要
+    # 分别提取两个板块
     lines = []
     
-    # 最多取前5条
-    for i, (title, summary) in enumerate(cards[:5], 1):
-        # 清理标题（去掉【】符号让内容更紧凑）
-        title = re.sub(r'<[^>]+>', '', title).strip()
-        title = title.strip('【】')
-        # 摘要只取前30字
-        summary = re.sub(r'<[^>]+>', '', summary).strip()
-        summary = re.sub(r'\s+', ' ', summary)
-        summary = summary[:30] + "..." if len(summary) > 30 else summary
-        
-        lines.append(f"{i}. {title}：{summary}")
+    # 行业动态板块
+    dynamics_match = re.search(
+        r'<div class="section-header dynamics">.*?<span>行业动态[^<]*</span>.*?<div class="section-body">(.*?)</div>\s*</div>\s*<!-- =====',
+        html_content, re.DOTALL
+    )
+    if dynamics_match:
+        cards = re.findall(
+            r'<div class="card">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>',
+            dynamics_match.group(1), re.DOTALL
+        )
+        lines.append("【行业动态】")
+        for i, (card_title, _) in enumerate(cards[:3], 1):
+            card_title = re.sub(r'<[^>]+>', '', card_title).strip()
+            card_title = card_title[:40] + "..." if len(card_title) > 40 else card_title
+            lines.append(f"{i}. {card_title}")
     
-    return (f"医院信息化与AI动态 {date_str}", "\n".join(lines))
+    # 标杆案例板块
+    case_match = re.search(
+        r'<div class="section-header case">.*?<span>标杆案例[^<]*</span>.*?<div class="section-body">(.*?)</div>\s*</div>',
+        html_content, re.DOTALL
+    )
+    if case_match:
+        cards = re.findall(
+            r'<div class="card">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>',
+            case_match.group(1), re.DOTALL
+        )
+        lines.append("")
+        lines.append("【标杆案例】")
+        for i, (card_title, _) in enumerate(cards[:3], 1):
+            card_title = re.sub(r'<[^>]+>', '', card_title).strip()
+            card_title = card_title[:40] + "..." if len(card_title) > 40 else card_title
+            lines.append(f"{i}. {card_title}")
+    
+    if not lines:
+        return (title, f"{date_str} 报告已更新，请点击查看详情")
+    
+    return (title, "\n".join(lines))
 
 
 def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str]:
@@ -141,8 +159,8 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str
         # 直接复制今日HTML
         html = today_html.read_text(encoding="utf-8")
         logger.info(f"已使用今日报告：{today_html.name}")
-        # 提取标题和摘要
-        report_title, report_summary = extract_summary_from_html(html)
+        # 提取标题和摘要（传入文件名作为标题）
+        report_title, report_summary = extract_summary_from_html(html, today_html.stem)
     else:
         report_title = f"医院信息化与AI动态 {today}"
         report_summary = "报告已更新，请点击查看详情"
