@@ -170,13 +170,15 @@ def get_token(app_key: str, app_secret: str, logger: logging.Logger) -> str:
     return data["access_token"]
 
 
-def send_action_card(webhook: str, title: str, summary: str, url: str, logger: logging.Logger):
+def send_action_card(webhook: str, title: str, summary: str, url: str, keyword: str, logger: logging.Logger):
     """发送 ActionCard 卡片消息"""
+    # 标题需要包含关键词
+    full_title = f"[{keyword}] {title}" if keyword else title
     payload = {
         "msgtype": "actionCard",
         "actionCard": {
-            "title": title,
-            "text": f"{title}\n\n{summary}\n\n点击查看完整报告",
+            "title": full_title,
+            "text": f"{full_title}\n\n{summary}\n\n点击查看完整报告",
             "single_title": "查看完整报告",
             "single_url": url
         }
@@ -228,7 +230,7 @@ def main():
         for group in enabled_groups:
             logger.info(f"→ 发送到：【{group['name']}】")
             try:
-                send_action_card(group["webhook"], report_title, summary, page_url, logger)
+                send_action_card(group["webhook"], report_title, summary, page_url, group.get("keyword", ""), logger)
                 success += 1
             except Exception as e:
                 logger.error(f"失败：{e}")
