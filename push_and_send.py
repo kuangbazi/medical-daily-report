@@ -135,51 +135,36 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
 
 
 def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str]:
-    """构建首页并同步历史日报到GitHub，返回(首页路径, 今日标题, 今日摘要)"""
+    """构建今日日报（用日期命名）并生成首页，返回(首页路径, 今日标题, 今日摘要)"""
     today = datetime.now().strftime("%Y-%m-%d")
     report_dir = cfg["report_dir"]
     
-    # 1. 扫描源目录获取所有日报（按日期倒序）
-    all_reports = []
-    for pattern in ["*简报_*.html", "*日报_*.html"]:
+    # 1. 扫描今日报告
+    today_html = None
+    for pattern in [f"*简报_{today}.html", f"*日报_{today}.html"]:
         files = list(report_dir.glob(pattern))
-        for f in files:
-            # 提取日期
-            date_match = re.search(r'(\d{4}-\d{2}-\d{2})', f.name)
-            if date_match:
-                all_reports.append({
-                    "path": f,
-                    "date": date_match.group(1),
-                    "name": f.name
-                })
+        if files:
+            today_html = sorted(files, key=lambda p: p.stat().st_mtime, reverse=True)[0]
+            break
     
-    # 去重并排序（最近7天）
-    seen = set()
-    recent_reports = []
-    for r in sorted(all_reports, key=lambda x: x["date"], reverse=True):
-        if r["date"] not in seen:
-            seen.add(r["date"])
-            recent_reports.append(r)
-            if len(recent_reports) >= 7:
-                break
+    if not today_html:
+        raise FileNotFoundError(f"未找到今日报告：{today}")
     
-    logger.info(f"找到 {len(all_reports)} 份历史日报，取最近 {len(recent_reports)} 份")
+    # 2. 用日期命名复制到仓库（避免覆盖历史）
+    today_file = REPO_DIR / f"{today}.html"
+    html_content = today_html.read_text(encoding="utf-8")
+    today_file.write_text(html_content, encoding="utf-8")
+    logger.info(f"今日报告已保存：{today_file.name}")
     
-    # 2. 复制所有历史日报到仓库
-    copied_count = 0
-    today_report = None
-    for r in all_reports:
-        dest_file = REPO_DIR / r["name"]
-        # 只在文件不存在或内容变化时复制
-        if not dest_file.exists() or dest_file.read_text(encoding="utf-8") != r["path"].read_text(encoding="utf-8"):
-            dest_file.write_text(r["path"].read_text(encoding="utf-8"), encoding="utf-8")
-            copied_count += 1
-        if r["date"] == today:
-            today_report = r
+    # 3. 提取今日报告摘要
+    report_title, report_summary = extract_summary_from_html(html_content, today_file.name)
     
-    logger.info(f"已同步 {copied_count} 份日报到仓库")
+    # 4. 更新首页（展示近7天的日期链接）
+    recent_files = sorted(
+        [f for f in REPO_DIR.glob("????-??-??.html")],
+        key=lambda f: f.stem, reverse=True
+    )[:7]
     
-    # 3. 生成首页（展示近7天日报列表）
     today_str = datetime.now().strftime("%Y年%m月%d日")
     index_html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
@@ -204,12 +189,11 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str
     <div class="report-list">
 """
     
-    for r in recent_reports:
-        # 转换日期格式
-        date_display = datetime.strptime(r["date"], "%Y-%m-%d").strftime("%Y年%m月%d日")
-        is_today = "（今日）" if r["date"] == today else ""
+    for f in recent_files:
+        date_display = datetime.strptime(f.stem, "%Y-%m-%d").strftime("%Y年%m月%d日")
+        is_today = "（今日）" if f.stem == today else ""
         index_html += f"""      <div class="report-item">
-        <a href="{r['name']}">{date_display} {is_today}</a>
+        <a href="{f.name}">{date_display} {is_today}</a>
       </div>
 """
     
@@ -220,17 +204,7 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str
     
     index_file = REPO_DIR / "index.html"
     index_file.write_text(index_html, encoding="utf-8")
-    logger.info(f"首页已生成，共 {len(recent_reports)} 份日报")
-    
-    # 4. 提取今日报告摘要
-    if today_report:
-        html_content = today_report["path"].read_text(encoding="utf-8")
-        report_title, report_summary = extract_summary_from_html(html_content, today_report["name"])
-        logger.info(f"已使用今日报告：{today_report['name']}")
-    else:
-        report_title = f"医院信息化与AI动态 {today}"
-        report_summary = "今日报告已更新，请点击查看详情"
-        logger.info("未找到今日报告")
+    logger.info(f"首页已更新，共 {len(recent_files)} 份日报")
     
     return index_file, report_title, report_summary
 

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医院信息化与AI每日简报 2026-04-24（下午更新版）</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: #f0f2f5;
+      color: #222;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+    /* 头部 */
+    .header {
+      background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 60%, #1976D2 100%);
+      border-radius: 10px;
+      padding: 22px 24px 18px;
+      margin-bottom: 18px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: "🏥";
+      position: absolute;
+      right: 24px; top: 18px;
+      font-size: 44px;
+      opacity: 0.15;
+    }
+    .header .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .header .meta {
+      font-size: 12px;
+      opacity: 0.82;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .header .meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* 板块 */
+    .section { margin-bottom: 18px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 8px 8px 0 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .section-header.dynamics { background: #1565C0; }
+    .section-header.case { background: #2e7d32; }
+    .section-header.advice { background: #6a1b9a; }
+    .section-header .icon { font-size: 18px; }
+    .section-body {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    /* 卡片 */
+    .card {
+      padding: 16px 18px;
+      border-bottom: 1px solid #f0f0f0;
+      position: relative;
+    }
+    .card:last-child { border-bottom: none; }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .card-title a {
+      color: #1565C0;
+      text-decoration: none;
+    }
+    .card-title a:hover { text-decoration: underline; }
+    .card-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .card-meta .tag {
+      background: #e3f2fd;
+      color: #1565C0;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .card-meta .tag.green { background: #e8f5e9; color: #2e7d32; }
+    .card-meta .tag.purple { background: #f3e5f5; color: #6a1b9a; }
+    .card-meta .tag.orange { background: #fff3e0; color: #e65100; }
+    .card-summary { font-size: 13px; color: #444; line-height: 1.75; }
+    .card-summary p { margin-bottom: 4px; }
+    .card-summary ul { margin: 4px 0 4px 18px; }
+    .card-summary li { margin-bottom: 2px; }
+    .highlight { background: #fff9c4; padding: 0 2px; border-radius: 2px; }
+    .link-row {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .link-row a {
+      color: #1565C0;
+      text-decoration: none;
+      border-bottom: 1px dashed #90caf9;
+    }
+    .link-row a:hover { border-bottom-style: solid; }
+
+    /* 标杆案例专属 */
+    .case-block { background: #f9fbe7; border-left: 3px solid #7cb342; }
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .case-field { padding: 3px 0; font-size: 12.5px; }
+    .case-field strong { color: #333; min-width: 56px; display: inline-block; }
+    .kpi-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 7px;
+    }
+    .kpi {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 管理建议专属 */
+    .advice-card {
+      padding: 13px 18px;
+      border-bottom: 1px solid #f3e5f5;
+    }
+    .advice-card:last-child { border-bottom: none; }
+    .advice-num {
+      display: inline-block;
+      width: 22px; height: 22px;
+      background: #6a1b9a;
+      color: #fff;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 22px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .advice-title {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #4a148c;
+      display: inline;
+      vertical-align: middle;
+    }
+    .advice-body {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.75;
+      margin-top: 6px;
+      padding-left: 30px;
+    }
+    .advice-body ul { margin-left: 14px; }
+    .advice-body li { margin-bottom: 2px; }
+    .action-tag {
+      display: inline-block;
+      background: #ede7f6;
+      color: #6a1b9a;
+      font-size: 11px;
+      border-radius: 4px;
+      padding: 1px 7px;
+      margin-right: 5px;
+      font-weight: 600;
+    }
+
+    /* 脚注 */
+    .footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 11px;
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer strong { color: #1565C0; }
+
+    @media (max-width: 500px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .header .title { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 头部 -->
+  <div class="header">
+    <div class="title">医院信息化与AI每日简报</div>
+    <div class="meta">
+      <span>📅 2026年4月24日（星期四）</span>
+      <span>🏢 佛山复星禅诚医院·信息科</span>
+      <span>📊 内容覆盖近7天（4月17日-24日）</span>
+    </div>
+  </div>
+
+  <!-- ===== 板块一：行业动态 ===== -->
+  <div class="section">
+    <div class="section-header dynamics">
+      <span class="icon">📡</span>
+      <span>行业动态（近7天）</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 动态1 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://2026.chima.org.cn/" target="_blank">
+            CHIMA 2026今日珠海正式开幕：第30届中国医院信息网络大会，四十余场专题聚焦AI与数字化转型
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">行业大会</span>
+          <span>CHIMA组委会</span>
+          <span>2026-04-24</span>
+          <span class="tag orange">🔥 今日开幕</span>
+        </div>
+        <div class="card-summary">
+          <p>第30届中国医院信息网络大会（CHIMA 2026）于4月24日至26日在珠海国际会展中心举办，恰逢CHIMA创办<span class="highlight">三十周年</span>里程碑，主题"传承、创新、发展"。</p>
+          <ul>
+            <li>大会设置<span class="highlight">1个主会场+四十余场专题分会场</span>，涵盖临床应用、医院管理、技术创新、人工智能、数字化转型、网络安全等方向</li>
+            <li>配套活动：第七届全国卫生健康行业网络安全技能大赛、HIT青年辩论赛、入选论文和入围案例宣讲、HIT江湖论坛等</li>
+            <li>同期举办医疗信息技术和产品展览会，聚焦智慧医院最新解决方案</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://2026.chima.org.cn/" target="_blank">→ 大会官网</a>
+        </div>
+      </div>
+
+      <!-- 动态2 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://hk.stockstar.com/IG2026042000029051.shtml" target="_blank">
+            医渡科技CHIMA发布三大重磅新品：从数据到决策，AI重塑医院未来
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">CHIMA速递</span>
+          <span>智通财经</span>
+          <span>2026-04-24</span>
+          <span class="tag orange">🆕 本周最新</span>
+        </div>
+        <div class="card-summary">
+          <p>4月24日13:00，医渡科技在珠海国际会展中心举办"从数据到决策——AI重塑医院未来"年度新品发布会，推出面向未来医院的<span class="highlight">系统级解决方案</span>。</p>
+          <ul>
+            <li>不同于单个产品升级，这是一套让AI真正贯穿诊前、诊中、诊后全流程的系统级方案</li>
+            <li>聚焦：数据治理→智能决策→临床落地全链路赋能</li>
+            <li>作为国内AI医疗龙头企业，医渡科技新品发布被视为CHIMA 2026的重要风向标</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://hk.stockstar.com/IG2026042000029051.shtml" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态3 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.sohu.com/a/1009913619_100147901" target="_blank">
+            多省更新三级医院评审标准：数据偏差超10%一票否决，信创适配成标配
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">评审标准</span>
+          <span>CDSreport/搜狐健康</span>
+          <span>2026-04-15</span>
+        </div>
+        <div class="card-summary">
+          <p>自2025年6月国家卫健委印发《三级医院评审标准（2025年版）》后，广东、山东、云南、山西及国家中医药管理局陆续出台实施细则。</p>
+          <ul>
+            <li><strong>广东：</strong>数据质量五维评分（完整性30%/唯一性15%/合规性25%/同一性15%/时效性15%），电子病历基本项>80%</li>
+            <li><strong>山东：</strong>彻底取消现场检查，<span class="highlight">信创适配成前置要求</span>，数据偏差超10%一票否决</li>
+            <li><strong>国家中医药局：</strong>统一中医/中西医结合/民族医医院标准，十章262条量化指标</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.sohu.com/a/1009913619_100147901" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态4 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.xinhuanet.com/politics/20260414/b9331cf651b940feaf1833a95e2d1f3b/c.html" target="_blank">
+            国务院办公厅印发《关于健全药品价格形成机制的若干意见》：14条措施优化药品价格体系
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">国家政策</span>
+          <span>新华社/中国政府网</span>
+          <span>2026-04-14</span>
+        </div>
+        <div class="card-summary">
+          <p>国务院办公厅发布国办发〔2026〕9号文件，提出<span class="highlight">14条措施</span>健全以市场为主导的药品价格形成机制。</p>
+          <ul>
+            <li>优化创新药首发价格机制，发挥市场决定性作用</li>
+            <li>涉及信息化：药品全流程追溯、价格监测数据共享、医保支付标准联动</li>
+            <li>推动"基本医保+商业健康险"协同发展</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.xinhuanet.com/politics/20260414/b9331cf651b940feaf1833a95e2d1f3b/c.html" target="_blank">→ 政策全文</a>
+        </div>
+      </div>
+
+      <!-- 动态5 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://news.qq.com/rain/a/20260417A01R4M00" target="_blank">
+            国家中医药局发布《医院中药饮片管理规范（2026版）》：19年来首次修订，新增处方点评与代煎管理
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">行业规范</span>
+          <span>国家中医药局/新华社</span>
+          <span>2026-04-16</span>
+        </div>
+        <div class="card-summary">
+          <p>国家中医药局与国家卫生健康委联合印发新规，替代2007版规范，<span class="highlight">十章四十九条</span>，4月16日正式落地。</p>
+          <ul>
+            <li>新增：处方点评、中药代煎、临方加工等内容纳入规范管理</li>
+            <li>覆盖全流程：采购、验收、贮藏、调剂、炮制、煎煮、处方点评</li>
+            <li>涉及信息化：中药饮片追溯系统、处方点评数据化管理、代煎全过程监控</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://news.qq.com/rain/a/20260417A01R4M00" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态6 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.cn-healthcare.com/articlewm/20260421/content-1670690.html" target="_blank">
+            HIMSS 2026深度观察：Epic三大AI智能体矩阵发布，未来医院本质是"AI工厂"
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">国际观察</span>
+          <span>HIT专家网/陈金雄</span>
+          <span>2026-04-21</span>
+        </div>
+        <div class="card-summary">
+          <p>HIMSS 2026大会汇聚75国900+展商24000+从业者，Epic推出<span class="highlight">三大AI智能体</span>：</p>
+          <ul>
+            <li>临床智能体Art：肺癌早诊率提升至69%</li>
+            <li>运营智能体Penny：预授权92%自动通过</li>
+            <li>患者服务智能体Emmie：客服咨询量-58%</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.cn-healthcare.com/articlewm/20260421/content-1670690.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 板块二：标杆案例 ===== -->
+  <div class="section">
+    <div class="section-header case">
+      <span class="icon">🏆</span>
+      <span>标杆案例（近7天）</span>
+      <span style="font-size:11px;font-weight:400;opacity:0.88;margin-left:auto;">优先广东/佛山同级别公立医院</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 案例1：常德二院 -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://life.china.com/2026-04/22/content_568097.html" target="_blank">
+            【标杆案例】常德市第二人民医院：全栈国产化智慧医院入围工信部典型案例，HIS/EMR/PACS/LIS 30+系统真替真用
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">国家级标杆</span>
+          <span>中华网/HIT专家网</span>
+          <span>2026-04-22</span>
+          <span class="tag orange">🆕 本周最新</span>
+        </div>
+        <div class="card-summary">
+          <p>4月17日工信部公示"2025年先进计算赋能新质生产力典型应用案例"，常德二院全栈国产化智慧医院项目成功入围。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>2023年启动，湖南省首家全栈全场景国产化医院</div>
+            <div class="case-field"><strong>实施路径</strong>遵循"两芯一生态"技术路线，兼容C86+ARM双架构</div>
+            <div class="case-field"><strong>核心举措</strong>国产服务器+OS+DB，HIS/EMR/PACS/LIS等30+核心系统全栈替代</div>
+            <div class="case-field"><strong>可复用经验</strong>"应替尽替、真替真用"，30余万条患者数据平稳迁移</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">30+核心系统全栈国产化</span>
+            <span class="kpi">门诊排队时间缩短20%</span>
+            <span class="kpi">30万+患者数据平稳迁移</span>
+            <span class="kpi">工信部典型案例</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://life.china.com/2026-04/22/content_568097.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 案例2：佛山中医院 -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://pasts.fszyy.com.cn/zyy2023/xwgg/ywxw/202601/t20260107_6423742.html" target="_blank">
+            【标杆案例】佛山市中医院：2项AI创新应用入选广东省首批"AI+医疗卫生"示范案例
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">佛山标杆</span>
+          <span>佛山市中医院官网</span>
+          <span>2026-01-07</span>
+        </div>
+        <div class="card-summary">
+          <p>广东省卫健委公布首批"人工智能+医疗卫生"应用场景案例（共289个），佛山市中医院<span class="highlight">2个项目成功入选</span>。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>广东省首批遴选289个AI+医疗应用场景案例</div>
+            <div class="case-field"><strong>实施路径</strong>聚焦AI骨科术前规划、AI影像辅诊等中医特色场景</div>
+            <div class="case-field"><strong>核心价值</strong>AI+中医药融合创新，填补中医智慧化空白</div>
+            <div class="case-field"><strong>可复用经验</strong>中医医院可参考其AI+骨科+影像的落地路径</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">2项入选省级示范</span>
+            <span class="kpi">AI+骨科术前规划</span>
+            <span class="kpi">AI+影像辅诊</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://pasts.fszyy.com.cn/zyy2023/xwgg/ywxw/202601/t20260107_6423742.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 板块三：管理建议 ===== -->
+  <div class="section">
+    <div class="section-header advice">
+      <span class="icon">💡</span>
+      <span>信息化管理建议</span>
+      <span style="font-size:11px;font-weight:400;opacity:0.88;margin-left:auto;">可落地实操 · 拒绝空泛内容</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 建议1 -->
+      <div class="advice-card">
+        <span class="advice-num">1</span>
+        <span class="advice-title">CHIMA 2026重点追踪：关注医渡科技等头部厂商新品发布</span>
+        <div class="advice-body">
+          <span class="action-tag">紧迫度：高</span><span class="action-tag">负责人：信息科</span>
+          <p>CHIMA 2026今日开幕，医渡科技等头部厂商发布系统级AI解决方案，建议：</p>
+          <ul>
+            <li><span class="action-tag">行动项</span>重点关注"从数据到决策"的系统级AI方案，与单点产品对比评估</li>
+            <li><span class="action-tag">行动项</span>收集各厂商AI产品功能对比和报价信息，为后续采购决策建立参考库</li>
+            <li><span class="action-tag">行动项</span>记录同级别医院（特别是广东三甲）的AI落地案例和量化成效数据</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 建议2 -->
+      <div class="advice-card">
+        <span class="advice-num">2</span>
+        <span class="advice-title">三级评审数据质量攻坚：对照广东标准建立五维数据质量监测体系</span>
+        <div class="advice-body">
+          <span class="action-tag">紧迫度：高</span><span class="action-tag">配合科室：医务部、质控科</span>
+          <p>广东三级评审标准明确了数据质量五维评分体系，数据偏差超10%直接一票否决，建议：</p>
+          <ul>
+            <li><span class="action-tag">行动项</span>按完整性/唯一性/合规性/同一性/时效性五维度，建立数据质量监测仪表盘</li>
+            <li><span class="action-tag">行动项</span>在EMR关键节点嵌入实时校验（必填项、诊断编码规范性），推行"无感化采集"</li>
+            <li><span class="action-tag">行动项</span>建立数据溯源机制，每季度向院办报告趋势</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 建议3 -->
+      <div class="advice-card">
+        <span class="advice-num">3</span>
+        <span class="advice-title">信创改造参考常德二院"真替真用"路径：先非核心后核心，30+系统全栈替代</span>
+        <div class="advice-body">
+          <span class="action-tag">紧迫度：中</span><span class="action-tag">参考案例：常德市第二人民医院</span>
+          <p>常德二院全栈国产化入围工信部典型案例，为地市级三甲医院信创改造提供了可复制的路径：</p>
+          <ul>
+            <li><span class="action-tag">行动项</span>制定信创路线图：OA/互联网医院先行→HIS/EMR等核心系统第二批</li>
+            <li><span class="action-tag">行动项</span>选型遵循"两芯一生态"，兼容C86+ARM双架构，避免锁定单一技术路线</li>
+            <li><span class="action-tag">行动项</span>数据迁移是关键风险点，要求厂商提供数据迁移验证方案</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 建议4 -->
+      <div class="advice-card">
+        <span class="advice-num">4</span>
+        <span class="advice-title">中药饮片管理新规落地：推进处方点评信息化与代煎全过程监控</span>
+        <div class="advice-body">
+          <span class="action-tag">紧迫度：中</span><span class="action-tag">配合科室：药剂科/中药房</span>
+          <p>《医院中药饮片管理规范（2026版）》4月16日已正式生效，建议：</p>
+          <ul>
+            <li><span class="action-tag">行动项</span>评估现有HIS中药饮片模块是否支持处方点评数据化管理</li>
+            <li><span class="action-tag">行动项</span>中药代煎环节需实现全过程监控与追溯，可与代煎系统厂商对接</li>
+            <li><span class="action-tag">行动项</span>将中药饮片追溯纳入医院整体追溯体系建设</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 脚注 -->
+  <div class="footer">
+    <p>📌 生成时间：2026-04-24 08:00 | 内容覆盖：近7天（4月17日-24日）</p>
+    <p>🏢 本简报由佛山复星禅诚医院信息科自动生成 | <strong>仅供内部参考</strong></p>
+    <p style="margin-top:4px;color:#bbb;">如需转发或引用，请核实原文信源 · 内部文件，请勿对外传播</p>
+  </div>
+
+</div>
+</body>
+</html>
