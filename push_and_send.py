@@ -12,6 +12,7 @@ push_and_send.py
 """
 
 import os
+import re
 import sys
 import json
 import time
@@ -21,6 +22,7 @@ import configparser
 import subprocess
 from pathlib import Path
 from datetime import datetime
+from html.parser import HTMLParser
 
 import requests
 
@@ -80,6 +82,43 @@ def read_template(template_path: Path) -> str:
     return template_path.read_text(encoding="utf-8")
 
 
+def extract_summary_from_html(html_content: str) -> str:
+    """从HTML报告中提取摘要，转换为Markdown格式"""
+    
+    # 提取头部信息
+    date_match = re.search(r'(\d{4}年\d{1,2}月\d{1,2}日)', html_content)
+    date_str = date_match.group(1) if date_match else datetime.now().strftime("%Y年%m月%d日")
+    
+    # 提取卡片内容
+    cards = re.findall(
+        r'<div class="card">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>',
+        html_content, re.DOTALL
+    )
+    
+    if not cards:
+        return f"今日报告已更新，请点击查看详情"
+    
+    # 构建摘要Markdown
+    lines = []
+    lines.append(f"**📅 {date_str}**")
+    lines.append("")
+    
+    # 最多取前5条最重要的动态
+    for i, (title, summary) in enumerate(cards[:5], 1):
+        # 清理标题
+        title = re.sub(r'<[^>]+>', '', title).strip()
+        # 清理摘要中的HTML标签，保留段落
+        summary = re.sub(r'<[^>]+>', '', summary).strip()
+        summary = re.sub(r'\s+', ' ', summary)
+        summary = summary[:100] + "..." if len(summary) > 100 else summary
+        
+        lines.append(f"**{i}. {title}**")
+        lines.append(f"{summary}")
+        lines.append("")
+    
+    return "\n".join(lines)
+
+
 def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str]:
     """构建HTML报告，返回文件路径和报告摘要"""
     today = datetime.now().strftime("%Y-%m-%d")
@@ -105,20 +144,22 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str]:
         # 直接复制今日HTML
         html = today_html.read_text(encoding="utf-8")
         logger.info(f"已使用今日报告：{today_html.name}")
+        # 提取摘要供钉钉消息使用
+        report_summary = extract_summary_from_html(html)
     else:
-        summary = f"今日报告（{today}）已生成，请点击查看详情"
+        report_summary = f"今日报告已更新，请点击查看详情"
         title_str = f"【广佛医疗行业动态日报 {today}】"
         # 使用模板生成简单页面
         html = template
         html = html.replace("__TITLE__", title_str)
         html = html.replace("__DATE__", today)
         html = html.replace("__COUNT__", "若干")
-        html = html.replace("__CONTENT__", f'<div class="card"><p>{summary}</p></div>')
+        html = html.replace("__CONTENT__", f'<div class="card"><p>{report_summary}</p></div>')
         logger.info("未找到今日HTML，使用模板生成")
 
     report_file.write_text(html, encoding="utf-8")
     logger.info(f"HTML 报告已生成：{report_file.name}")
-    return report_file, f"【广佛医疗行业动态日报 {today}】"
+    return report_file, f"【广佛医疗行业动态日报 {today}】", report_summary
 
 
 def push_to_github(logger: logging.Logger) -> str:
@@ -216,7 +257,7 @@ def main():
         logger.info("=" * 50)
 
         # Step 1: 构建 HTML
-        report_path, report_title = build_html_report(cfg, logger)
+        report_path, report_title, report_summary = build_html_report(cfg, logger)
 
         # Step 2: 推送到 GitHub
         page_url = push_to_github(logger)
@@ -233,14 +274,13 @@ def main():
         enabled_groups = [g for g in cfg["groups"] if g["enabled"]]
         logger.info(f"发送到 {len(enabled_groups)} 个群…")
 
-        summary = "今日医疗行业动态已更新，点击查看完整报告"
         success = 0
 
         for group in enabled_groups:
             keyword = group.get("keyword", "").strip()
             logger.info(f"→ 发送到：【{group['name']}】，关键词：'{keyword}'")
             try:
-                send_markdown_card(group["webhook"], report_title, summary, page_url, keyword, logger)
+                send_markdown_card(group["webhook"], report_title, report_summary, page_url, keyword, logger)
                 success += 1
             except Exception as e:
                 logger.error(f"失败：{e}")
