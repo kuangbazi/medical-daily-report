@@ -83,13 +83,13 @@ def read_template(template_path: Path) -> str:
 
 
 def extract_summary_from_html(html_content: str) -> str:
-    """从HTML报告中提取摘要，转换为Markdown格式"""
+    """从HTML报告中提取摘要，转换为简洁的Markdown格式"""
     
-    # 提取头部信息
+    # 提取日期
     date_match = re.search(r'(\d{4}年\d{1,2}月\d{1,2}日)', html_content)
     date_str = date_match.group(1) if date_match else datetime.now().strftime("%Y年%m月%d日")
     
-    # 提取卡片内容
+    # 提取卡片内容：标题 + 摘要
     cards = re.findall(
         r'<div class="card">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>',
         html_content, re.DOTALL
@@ -98,23 +98,21 @@ def extract_summary_from_html(html_content: str) -> str:
     if not cards:
         return f"今日报告已更新，请点击查看详情"
     
-    # 构建摘要Markdown
+    # 构建简洁摘要：只显示类目 + 50字内摘要
     lines = []
     lines.append(f"**📅 {date_str}**")
     lines.append("")
     
-    # 最多取前5条最重要的动态
-    for i, (title, summary) in enumerate(cards[:5], 1):
+    # 最多取前4条
+    for i, (title, summary) in enumerate(cards[:4], 1):
         # 清理标题
         title = re.sub(r'<[^>]+>', '', title).strip()
-        # 清理摘要中的HTML标签，保留段落
+        # 摘要只取前50字
         summary = re.sub(r'<[^>]+>', '', summary).strip()
         summary = re.sub(r'\s+', ' ', summary)
-        summary = summary[:100] + "..." if len(summary) > 100 else summary
+        summary = summary[:50] + "…" if len(summary) > 50 else summary
         
-        lines.append(f"**{i}. {title}**")
-        lines.append(f"{summary}")
-        lines.append("")
+        lines.append(f"**{i}. {title}** {summary}")
     
     return "\n".join(lines)
 
