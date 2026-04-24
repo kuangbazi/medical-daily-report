@@ -228,9 +228,10 @@ def main():
         success = 0
 
         for group in enabled_groups:
-            logger.info(f"→ 发送到：【{group['name']}】")
+            keyword = group.get("keyword", "").strip()
+            logger.info(f"→ 发送到：【{group['name']}】，关键词：'{keyword}'")
             try:
-                send_action_card(group["webhook"], report_title, summary, page_url, group.get("keyword", ""), logger)
+                send_action_card(group["webhook"], report_title, summary, page_url, keyword, logger)
                 success += 1
             except Exception as e:
                 logger.error(f"失败：{e}")
