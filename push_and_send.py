@@ -5,7 +5,7 @@ push_and_send.py
 ----------------
 1. 生成今日 HTML 报告
 2. 推送到 GitHub（触发 GitHub Pages）
-3. 发送钉钉 ActionCard 卡片消息（带链接）
+3. 发送钉钉 ActionCard 卡片消息（带内嵌按钮）
 
 用法：
     python push_and_send.py
@@ -100,7 +100,7 @@ def extract_summary_from_html(html_content: str) -> str:
     
     # 构建简洁摘要：只显示类目 + 50字内摘要
     lines = []
-    lines.append(f"**📅 {date_str}**")
+    lines.append(f"**{date_str}**")
     lines.append("")
     
     # 最多取前4条
@@ -110,9 +110,9 @@ def extract_summary_from_html(html_content: str) -> str:
         # 摘要只取前50字
         summary = re.sub(r'<[^>]+>', '', summary).strip()
         summary = re.sub(r'\s+', ' ', summary)
-        summary = summary[:50] + "…" if len(summary) > 50 else summary
+        summary = summary[:50] + "..." if len(summary) > 50 else summary
         
-        lines.append(f"**{i}. {title}** {summary}")
+        lines.append(f"{i}. **{title}** {summary}")
     
     return "\n".join(lines)
 
@@ -162,7 +162,7 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str]:
 
 def push_to_github(logger: logging.Logger) -> str:
     """推送仓库到 GitHub，返回页面 URL"""
-    logger.info("正在推送到 GitHub…")
+    logger.info("正在推送到 GitHub...")
 
     # Git 配置
     subprocess.run(["git", "config", "--global", "user.email", "bot@kuang.local"],
@@ -211,24 +211,19 @@ def get_token(app_key: str, app_secret: str, logger: logging.Logger) -> str:
     return data["access_token"]
 
 
-def send_markdown_card(webhook: str, title: str, summary: str, url: str, keyword: str, logger: logging.Logger):
-    """发送 Markdown 卡片消息（带按钮样式链接）"""
+def send_action_card(webhook: str, title: str, summary: str, url: str, keyword: str, logger: logging.Logger):
+    """发送 ActionCard 卡片消息（带内嵌按钮）"""
     # 标题需要包含关键词
     full_title = f"[{keyword}] {title}" if keyword else title
     
-    # Markdown 格式：标题 + 摘要 + 按钮式链接
-    markdown_text = f"""## {full_title}
-
-{summary}
-
-[查看完整报告]({url})
-"""
-    
     payload = {
-        "msgtype": "markdown",
-        "markdown": {
+        "msgtype": "actionCard",
+        "actionCard": {
             "title": full_title,
-            "text": markdown_text
+            "text": summary,
+            "btnOrientation": "0",
+            "singleTitle": "查看完整报告",
+            "singleURL": url
         }
     }
 
@@ -241,7 +236,7 @@ def send_markdown_card(webhook: str, title: str, summary: str, url: str, keyword
 
 
 def main():
-    parser = argparse.ArgumentParser(description="生成报告 → 推送GitHub → 发送钉钉卡片")
+    parser = argparse.ArgumentParser(description="生成报告 - 推送GitHub - 发送钉钉卡片")
     parser.add_argument("--config", default=str(DEFAULT_CONFIG))
     args = parser.parse_args()
 
@@ -262,23 +257,23 @@ def main():
         logger.info(f"页面地址：{page_url}")
 
         # 等待 GitHub Pages 构建（通常几秒）
-        logger.info("等待 GitHub Pages 构建（约 30 秒）…")
+        logger.info("等待 GitHub Pages 构建（约 30 秒）...")
         time.sleep(30)
 
-        # Step 3: 获取 token
-        token = get_token(cfg["app_key"], cfg["app_secret"], logger)
+        # Step 3: 获取 token（ActionCard 不需要token，用webhook直发）
+        # token = get_token(cfg["app_key"], cfg["app_secret"], logger)
 
         # Step 4: 发送到各个群
         enabled_groups = [g for g in cfg["groups"] if g["enabled"]]
-        logger.info(f"发送到 {len(enabled_groups)} 个群…")
+        logger.info(f"发送到 {len(enabled_groups)} 个群...")
 
         success = 0
 
         for group in enabled_groups:
             keyword = group.get("keyword", "").strip()
-            logger.info(f"→ 发送到：【{group['name']}】，关键词：'{keyword}'")
+            logger.info(f"-> 发送到：【{group['name']}】，关键词：'{keyword}'")
             try:
-                send_markdown_card(group["webhook"], report_title, report_summary, page_url, keyword, logger)
+                send_action_card(group["webhook"], report_title, report_summary, page_url, keyword, logger)
                 success += 1
             except Exception as e:
                 logger.error(f"失败：{e}")
