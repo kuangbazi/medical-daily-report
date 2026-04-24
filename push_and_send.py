@@ -83,19 +83,43 @@ def read_template(template_path: Path) -> str:
 
 
 def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[str, str]:
-    """从HTML报告中提取标题和摘要，返回(标题, 摘要内容)"""
+    """从HTML报告中提取标题和摘要，返回(标题, 摘要内容)
     
-    # 标题用文件名
-    title = filename if filename else "医院信息化与AI动态日报"
+    标题格式：医院信息化与AI每日简报_2026-04-24
+    摘要格式：
+        **【行业动态】**
+        1. **标题**：摘要（第一句，50字内）
+        2. **标题**：摘要（第一句，50字内）
+        ...
+        **【标杆案例】**
+        1. **标题**：摘要（第一句，50字内）
+        ...
+    """
     
-    # 提取日期
-    date_match = re.search(r'(\d{4}年\d{1,2}月\d{1,2}日)', html_content)
-    date_str = date_match.group(1) if date_match else datetime.now().strftime("%Y年%m月%d日")
+    # 标题：文件名去掉.html后缀
+    title = filename.replace(".html", "") if filename else "医院信息化与AI每日简报"
     
-    # 分别提取两个板块
+    def strip_html(text: str) -> str:
+        """去除HTML标签并清理空白"""
+        text = re.sub(r'<[^>]+>', '', text)
+        text = re.sub(r'\s+', ' ', text).strip()
+        return text
+    
+    def get_first_sentence(text: str, max_len: int = 50) -> str:
+        """提取第一句，限制长度"""
+        text = text.strip()
+        # 找到第一个句号/分号/逗号（中文优先）
+        for sep in ['。', '；', '，', '.', ';', ',']:
+            if sep in text:
+                text = text.split(sep)[0] + sep
+                break
+        if len(text) > max_len:
+            text = text[:max_len] + "..."
+        return text
+    
     lines = []
     
-    # 行业动态板块
+    # ── 行业动态 ──
     dynamics_match = re.search(
         r'<div class="section-header dynamics">.*?<span>行业动态[^<]*</span>.*?<div class="section-body">(.*?)</div>\s*</div>\s*<!-- =====',
         html_content, re.DOTALL
@@ -105,13 +129,17 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
             r'<div class="card">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>',
             dynamics_match.group(1), re.DOTALL
         )
-        lines.append("【行业动态】")
-        for i, (card_title, _) in enumerate(cards[:3], 1):
-            card_title = re.sub(r'<[^>]+>', '', card_title).strip()
-            card_title = card_title[:40] + "..." if len(card_title) > 40 else card_title
-            lines.append(f"{i}. {card_title}")
+        lines.append("**【行业动态】**")
+        for i, (card_title, card_summary) in enumerate(cards[:5], 1):
+            card_title = strip_html(card_title)
+            card_summary = strip_html(card_summary)
+            card_summary = get_first_sentence(card_summary, 50)
+            # 标题超长截断
+            if len(card_title) > 40:
+                card_title = card_title[:40] + "..."
+            lines.append(f"{i}. **{card_title}**：{card_summary}")
     
-    # 标杆案例板块
+    # ── 标杆案例 ──
     case_match = re.search(
         r'<div class="section-header case">.*?<span>标杆案例[^<]*</span>.*?<div class="section-body">(.*?)</div>\s*</div>',
         html_content, re.DOTALL
@@ -122,13 +150,18 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
             case_match.group(1), re.DOTALL
         )
         lines.append("")
-        lines.append("【标杆案例】")
-        for i, (card_title, _) in enumerate(cards[:3], 1):
-            card_title = re.sub(r'<[^>]+>', '', card_title).strip()
-            card_title = card_title[:40] + "..." if len(card_title) > 40 else card_title
-            lines.append(f"{i}. {card_title}")
+        lines.append("**【标杆案例】**")
+        for i, (card_title, card_summary) in enumerate(cards[:3], 1):
+            card_title = strip_html(card_title)
+            card_summary = strip_html(card_summary)
+            card_summary = get_first_sentence(card_summary, 50)
+            if len(card_title) > 40:
+                card_title = card_title[:40] + "..."
+            lines.append(f"{i}. **{card_title}**：{card_summary}")
     
     if not lines:
+        date_match = re.search(r'(\d{4}年\d{1,2}月\d{1,2}日)', html_content)
+        date_str = date_match.group(1) if date_match else datetime.now().strftime("%Y年%m月%d日")
         return (title, f"{date_str} 报告已更新，请点击查看详情")
     
     return (title, "\n".join(lines))
@@ -244,7 +277,7 @@ def get_token(app_key: str, app_secret: str, logger: logging.Logger) -> str:
 
 
 def send_action_card(webhook: str, title: str, summary: str, url: str, keyword: str, logger: logging.Logger):
-    """发送 ActionCard 卡片消息（带内嵌按钮）"""
+    """发送 ActionCard 卡片消息（Markdown正文 + 内嵌按钮）"""
     # 标题需要包含关键词
     full_title = f"[{keyword}] {title}" if keyword else title
     
@@ -252,7 +285,7 @@ def send_action_card(webhook: str, title: str, summary: str, url: str, keyword: 
         "msgtype": "actionCard",
         "actionCard": {
             "title": full_title,
-            "text": summary,
+            "text": summary,   # Markdown 格式正文
             "btnOrientation": "0",
             "singleTitle": "查看完整报告",
             "singleURL": url
