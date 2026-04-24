@@ -36,7 +36,7 @@ def setup_logging() -> logging.Logger:
     logger = logging.getLogger("push_send")
     logger.setLevel(logging.INFO)
     handler = logging.StreamHandler(sys.stdout)
-    handler.setFormatter(logging.Formatter("%H:%M:%S  %(message)s"))
+    handler.setFormatter(logging.Formatter("[%(asctime)s] %(message)s", datefmt="%H:%M:%S"))
     logger.addHandler(handler)
     return logger
 
@@ -90,34 +90,33 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str]:
     else:
         template = read_template(Path(__file__).parent / "template.html")
 
-    # 扫描今日PDF获取内容
+    # 扫描今日HTML获取内容
     pdf_dir = cfg["report_dir"]
-    today_pdf = None
-    for pattern in [f"医院信息化与AI每日简报_{today}.*", f"日报_{today}.*"]:
+    today_html = None
+    for pattern in [f"医院信息化与AI每日简报_{today}.html", f"日报_{today}.html"]:
         files = list(pdf_dir.glob(pattern))
         if files:
-            today_pdf = sorted(files, key=lambda p: p.stat().st_mtime, reverse=True)[0]
+            today_html = sorted(files, key=lambda p: p.stat().st_mtime, reverse=True)[0]
             break
 
-    if today_pdf and today_pdf.suffix == ".html":
-        content = today_pdf.read_text(encoding="utf-8")
-        # 提取摘要（简单处理）
-        summary = content[:500] if len(content) > 500 else content
+    if today_html:
+        # 直接复制今日HTML
+        html = today_html.read_text(encoding="utf-8")
+        logger.info(f"已使用今日报告：{today_html.name}")
     else:
         summary = f"今日报告（{today}）已生成，请点击查看详情"
-
-    # 替换模板占位符
-    title = f"【广佛医疗行业动态日报 {today}】"
-    html = template.format(
-        title=title,
-        date=today,
-        count="若干",
-        content=f'<div class="card"><p>{summary}</p></div>'
-    )
+        title_str = f"【广佛医疗行业动态日报 {today}】"
+        # 使用模板生成简单页面
+        html = template
+        html = html.replace("__TITLE__", title_str)
+        html = html.replace("__DATE__", today)
+        html = html.replace("__COUNT__", "若干")
+        html = html.replace("__CONTENT__", f'<div class="card"><p>{summary}</p></div>')
+        logger.info("未找到今日HTML，使用模板生成")
 
     report_file.write_text(html, encoding="utf-8")
     logger.info(f"HTML 报告已生成：{report_file.name}")
-    return report_file, title
+    return report_file, f"【广佛医疗行业动态日报 {today}】"
 
 
 def push_to_github(logger: logging.Logger) -> str:
