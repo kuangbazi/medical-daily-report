@@ -135,7 +135,7 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
 
 
 def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str]:
-    """构建今日日报（用日期命名）并生成首页，返回(首页路径, 今日标题, 今日摘要)"""
+    """构建今日日报（用日期命名）并生成自动跳转首页，返回(首页路径, 今日标题, 今日摘要)"""
     today = datetime.now().strftime("%Y-%m-%d")
     report_dir = cfg["report_dir"]
     
@@ -159,52 +159,35 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str
     # 3. 提取今日报告摘要
     report_title, report_summary = extract_summary_from_html(html_content, today_file.name)
     
-    # 4. 更新首页（展示近7天的日期链接）
-    recent_files = sorted(
-        [f for f in REPO_DIR.glob("????-??-??.html")],
-        key=lambda f: f.stem, reverse=True
-    )[:7]
-    
+    # 4. 生成自动跳转首页
     today_str = datetime.now().strftime("%Y年%m月%d日")
     index_html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>医院信息化与AI动态日报</title>
+  <meta http-equiv="refresh" content="0;url={today}.html">
+  <title>跳转中...</title>
   <style>
-    body {{ font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; padding: 20px; }}
-    .container {{ max-width: 600px; margin: 0 auto; }}
-    h1 {{ color: #1a3a6b; text-align: center; margin-bottom: 30px; }}
-    .report-list {{ background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
-    .report-item {{ padding: 16px 20px; border-bottom: 1px solid #eee; }}
-    .report-item:last-child {{ border-bottom: none; }}
-    .report-item a {{ color: #1565C0; text-decoration: none; font-size: 16px; display: block; }}
-    .report-item a:hover {{ text-decoration: underline; }}
-    .report-item .date {{ color: #888; font-size: 13px; margin-top: 4px; }}
+    body {{ font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }}
+    .container {{ text-align: center; }}
+    h1 {{ color: #1a3a6b; margin-bottom: 20px; }}
+    p {{ color: #666; }}
+    a {{ color: #1565C0; }}
   </style>
 </head>
 <body>
   <div class="container">
     <h1>🏥 医院信息化与AI动态日报</h1>
-    <div class="report-list">
-"""
-    
-    for f in recent_files:
-        date_display = datetime.strptime(f.stem, "%Y-%m-%d").strftime("%Y年%m月%d日")
-        is_today = "（今日）" if f.stem == today else ""
-        index_html += f"""      <div class="report-item">
-        <a href="{f.name}">{date_display} {is_today}</a>
-      </div>
-"""
-    
-    index_html += """    </div>
+    <p>{today_str} 报告加载中...</p>
+    <p>如果未自动跳转，请 <a href="{today}.html">点击这里</a></p>
   </div>
+  <script>window.location.href = "{today}.html";</script>
 </body>
 </html>"""
     
     index_file = REPO_DIR / "index.html"
     index_file.write_text(index_html, encoding="utf-8")
-    logger.info(f"首页已更新，共 {len(recent_files)} 份日报")
+    logger.info(f"首页已生成，自动跳转到 {today}.html")
     
     return index_file, report_title, report_summary
 
