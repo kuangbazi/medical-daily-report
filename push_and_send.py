@@ -57,9 +57,11 @@ def load_config(cfg_path: str) -> dict:
             if not webhook or webhook.startswith("YOUR_"):
                 continue
             enabled = cfg.get(section, "enabled", fallback="1").strip()
+            keyword = cfg.get(section, "keyword", fallback="").strip()
             groups.append({
                 "name":    cfg.get(section, "name", fallback=section).strip(),
                 "webhook": webhook,
+                "keyword": keyword,
                 "enabled": enabled == "1",
             })
 
