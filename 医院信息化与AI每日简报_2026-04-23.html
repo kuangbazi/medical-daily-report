@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医院信息化与AI每日简报 2026-04-23</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: #f0f2f5;
+      color: #222;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+    /* 头部 */
+    .header {
+      background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 60%, #1976D2 100%);
+      border-radius: 10px;
+      padding: 22px 24px 18px;
+      margin-bottom: 18px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: "🏥";
+      position: absolute;
+      right: 24px; top: 18px;
+      font-size: 44px;
+      opacity: 0.15;
+    }
+    .header .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .header .meta {
+      font-size: 12px;
+      opacity: 0.82;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .header .meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* 板块 */
+    .section { margin-bottom: 18px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 8px 8px 0 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .section-header.dynamics { background: #1565C0; }
+    .section-header.case { background: #2e7d32; }
+    .section-header.advice { background: #6a1b9a; }
+    .section-header .icon { font-size: 18px; }
+    .section-body {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    /* 卡片 */
+    .card {
+      padding: 16px 18px;
+      border-bottom: 1px solid #f0f0f0;
+      position: relative;
+    }
+    .card:last-child { border-bottom: none; }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .card-title a {
+      color: #1565C0;
+      text-decoration: none;
+    }
+    .card-title a:hover { text-decoration: underline; }
+    .card-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .card-meta .tag {
+      background: #e3f2fd;
+      color: #1565C0;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .card-meta .tag.green { background: #e8f5e9; color: #2e7d32; }
+    .card-meta .tag.purple { background: #f3e5f5; color: #6a1b9a; }
+    .card-meta .tag.orange { background: #fff3e0; color: #e65100; }
+    .card-summary { font-size: 13px; color: #444; line-height: 1.75; }
+    .card-summary p { margin-bottom: 4px; }
+    .card-summary ul { margin: 4px 0 4px 18px; }
+    .card-summary li { margin-bottom: 2px; }
+    .highlight { background: #fff9c4; padding: 0 2px; border-radius: 2px; }
+    .link-row {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .link-row a {
+      color: #1565C0;
+      text-decoration: none;
+      border-bottom: 1px dashed #90caf9;
+    }
+    .link-row a:hover { border-bottom-style: solid; }
+
+    /* 标杆案例专属 */
+    .case-block { background: #f9fbe7; border-left: 3px solid #7cb342; }
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .case-field { padding: 3px 0; font-size: 12.5px; }
+    .case-field strong { color: #333; min-width: 56px; display: inline-block; }
+    .kpi-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 7px;
+    }
+    .kpi {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 管理建议专属 */
+    .advice-card {
+      padding: 13px 18px;
+      border-bottom: 1px solid #f3e5f5;
+    }
+    .advice-card:last-child { border-bottom: none; }
+    .advice-num {
+      display: inline-block;
+      width: 22px; height: 22px;
+      background: #6a1b9a;
+      color: #fff;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 22px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .advice-title {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #4a148c;
+      display: inline;
+      vertical-align: middle;
+    }
+    .advice-body {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.75;
+      margin-top: 6px;
+      padding-left: 30px;
+    }
+    .advice-body ul { margin-left: 14px; }
+    .advice-body li { margin-bottom: 2px; }
+    .action-tag {
+      display: inline-block;
+      background: #ede7f6;
+      color: #6a1b9a;
+      font-size: 11px;
+      border-radius: 4px;
+      padding: 1px 7px;
+      margin-right: 5px;
+      font-weight: 600;
+    }
+
+    /* 脚注 */
+    .footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 11px;
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer strong { color: #1565C0; }
+
+    @media (max-width: 500px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .header .title { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 头部 -->
+  <div class="header">
+    <div class="title">医院信息化与AI每日简报</div>
+    <div class="meta">
+      <span>📅 2026年4月23日（星期四）</span>
+      <span>🏢 佛山复星禅诚医院·信息科</span>
+      <span>📊 内容覆盖近7天（4月16日-23日）</span>
+    </div>
+  </div>
+
+  <!-- ===== 板块一：行业动态 ===== -->
+  <div class="section">
+    <div class="section-header dynamics">
+      <span class="icon">📡</span>
+      <span>行业动态（近7天）</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 动态1 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.cn-healthcare.com/articlewm/20260421/content-1670690.html" target="_blank">
+            HIMSS 2026观察：Epic三大AI智能体矩阵发布，医疗AI进入规模化应用阶段
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">国际观察</span>
+          <span>HIT专家网</span>
+          <span>2026-04-21</span>
+          <span class="tag orange">🆕 本周最新</span>
+        </div>
+        <div class="card-summary">
+          <p>HIMSS 2026大会汇聚75国900+展商24000+从业者，中国研究型医院学会医疗信息化分会副会长陈金雄发布深度观察。</p>
+          <ul>
+            <li><span class="highlight">Epic推出三大AI智能体</span>：临床智能体Art（肺癌早诊率提升至69%）、运营智能体Penny（预授权92%自动通过）、患者服务智能体Emmie（客服咨询量-58%）</li>
+            <li>未来医院本质：基于医疗数据的"<span class="highlight">AI工厂</span>"</li>
+            <li>AI与循证医学深度绑定，UpToDate等知识库成为标配</li>
+            <li>语音交互（Voice UI）成为主流入口，"人适应系统"转向"系统适应人"</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.cn-healthcare.com/articlewm/20260421/content-1670690.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态2 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.smartcity.team/policies/%e5%a4%a7%e6%a8%a1%e5%9e%8b%e6%94%bf%e7%ad%96%e5%ba%93/guangdong_ai_plan/" target="_blank">
+            广东发布AI全域应用行动方案：推动"人工智能+医疗卫生"全流程深度应用
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">省级政策</span>
+          <span>广东省人民政府办公厅</span>
+          <span>2026-04-22</span>
+          <span class="tag orange">🆕 本周最新</span>
+        </div>
+        <div class="card-summary">
+          <p>《广东省加快推进人工智能全域全时全行业高水平应用行动方案》（粤办函〔2026〕50号）正式发布，含63项重点任务、十大要素保障。</p>
+          <ul>
+            <li>第57条<span class="highlight">"人工智能+医疗卫生"</span>：推动AI在疾病预防、精准诊断、智能治疗、健康管理、医保服务、公卫防控全流程深度应用</li>
+            <li>重点推广：<span class="highlight">"粤医智影"智能阅片</span>、"粤医慧诊"智能临床辅助决策系统、智能随访、传染病智能监测预警</li>
+            <li>推进基层：优质医疗资源与智能技术下沉，强化远程会诊、智能辅助诊疗，促进分级诊疗</li>
+            <li>中医药特色：推动AI与中医医院深度融合，探索中医电子病历、智慧中药房等创新应用</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.smartcity.team/policies/%e5%a4%a7%e6%a8%a1%e5%9e%8b%e6%94%bf%e7%ad%96%e5%ba%93/guangdong_ai_plan/" target="_blank">→ 政策全文</a>
+        </div>
+      </div>
+
+      <!-- 动态3 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://health.people.com.cn/n1/2026/0419/c14739-40703963.html" target="_blank">
+            国家医保局等三部门联合发文：医保支持基层医疗卫生服务发展，14条措施出炉
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">国家政策</span>
+          <span>人民网</span>
+          <span>2026-04-19</span>
+          <span class="tag orange">🆕 本周最新</span>
+        </div>
+        <div class="card-summary">
+          <p>国家医保局、国家发展改革委、国家卫生健康委联合印发《关于医保支持基层医疗卫生服务发展的指导意见》（医保发〔2026〕7号），提出14条具体措施。</p>
+          <ul>
+            <li>核心目标：实现基层医疗卫生机构得发展、参保群众得实惠、医保基金可持续</li>
+            <li>推动实现群众在基层"<span class="highlight">看得上、看得起、看得好</span>"病</li>
+            <li>涉及信息化：远程医疗、智能辅助诊疗、医保智能审核等场景将受益</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://health.people.com.cn/n1/2026/0419/c14739-40703963.html" target="_blank">→ 政策原文</a>
+        </div>
+      </div>
+
+      <!-- 动态4 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://2026.chima.org.cn/" target="_blank">
+            CHIMA 2026今日珠海开幕：第30届中国医院信息网络大会盛大启幕
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">行业大会</span>
+          <span>CHIMA组委会</span>
+          <span>2026-04-23</span>
+          <span class="tag orange">🔥 今日开幕</span>
+        </div>
+        <div class="card-summary">
+          <p>第30届中国医院信息网络大会（CHIMA 2026）于4月23日至26日在珠海国际会展中心举办，大会主题"<span class="highlight">传承、创新、发展</span>"。</p>
+          <ul>
+            <li>4月23日：报到注册；4月24日-26日：会议、展览及相关活动</li>
+            <li>聚焦方向：智慧医院建设、医疗AI应用、互联互通、数据安全</li>
+            <li>学术性强、实践突出、交流广泛，具有行业重大影响力</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://2026.chima.org.cn/" target="_blank">→ 大会官网</a>
+        </div>
+      </div>
+
+      <!-- 动态5 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www3.xinhuanet.com/tech/20260415/ddfdbcb12bc94eaf968dd314424f3582/c.html" target="_blank">
+            新华网深度报道：医疗AI从"技术模型"到"场景落地"，三大挑战待破解
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">深度观察</span>
+          <span>新华网</span>
+          <span>2026-04-15</span>
+        </div>
+        <div class="card-summary">
+          <p>报道指出医疗AI落地面临<span class="highlight">数据质量、评测标准、商业模式</span>三大挑战，以北京世纪坛医院为例，AI已覆盖患者服务、临床辅助、医疗管理等多领域。</p>
+          <ul>
+            <li>北京世纪坛医院：AI质控、智能预问诊、检验报告智能解读已服务<span class="highlight">10万+人次</span></li>
+            <li>贵州省人民医院：骨科AI术前规划已应用于临床实践</li>
+            <li>关键路径：技术→场景→规模化，需解决数据标准化问题</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www3.xinhuanet.com/tech/20260415/ddfdbcb12bc94eaf968dd314424f3582/c.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态6 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://e.huawei.com/cn/news/2026/industries/healthcare/general-artificial-intelligence-platform-hospitals" target="_blank">
+            南方医院联合华为发布HAIP平台：重构医疗AI新范式，打造"AI操作系统"
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">省级重磅</span>
+          <span>华为官网</span>
+          <span>2026-04-10</span>
+        </div>
+        <div class="card-summary">
+          <p>4月10日，"AI驱动智慧医院建设新范式高峰论坛"在广州举行，南方医科大学南方医院联合华为发布<span class="highlight">医院通用人工智能平台（HAIP）</span>。</p>
+          <ul>
+            <li>平台定位：医疗AI的"操作系统"，统筹全院算力、数据、模型资源</li>
+            <li>告别"打零工"式AI应用，实现AI能力系统化建设</li>
+            <li>省卫健委、省广州市卫健委联合指导支持</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://e.huawei.com/cn/news/2026/industries/healthcare/general-artificial-intelligence-platform-hospitals" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 板块二：标杆案例 ===== -->
+  <div class="section">
+    <div class="section-header case">
+      <span class="icon">🏆</span>
+      <span>标杆案例（近7天）</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 案例1：佛山南海 -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://tech.gmw.cn/2026-01/26/content_38559326.htm" target="_blank">
+            【标杆案例】佛山南海区：跑通"产研用"闭环，构建AI+医疗卫生新生态
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">佛山标杆</span>
+          <span>光明网</span>
+          <span>2026-01-26</span>
+          <span class="tag green">省级示范</span>
+        </div>
+        <div class="card-summary">
+          <p>南海区卫生健康局联合生态伙伴，以临床需求为驱动，成功跑通"产研用"闭环，实现AI与医疗深度融合。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>南海区推进"AI+医疗卫生"应用，提升居民就医体验</div>
+            <div class="case-field"><strong>实施路径</strong>浪潮元脑EPAI平台提供低代码工具，打通0-1落地环节</div>
+            <div class="case-field"><strong>核心举措</strong>数据高速安全流转、业务快速创新迭代</div>
+            <div class="case-field"><strong>可复用经验</strong>生态共建扎根临床需求，平台化思维统筹资源</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">累计服务12.67万患者</span>
+            <span class="kpi">错号率降低20%</span>
+            <span class="kpi">病历质控效率+60%</span>
+            <span class="kpi">导诊效率提升20倍</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://tech.gmw.cn/2026-01/26/content_38559326.htm" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 案例2：南方医院HAIP -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://news.qq.com/rain/a/20260416A061H600" target="_blank">
+            【标杆案例】南方医院HAIP平台：算力+30%，肝癌早诊率23%→67%
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">省级标杆</span>
+          <span>腾讯新闻</span>
+          <span>2026-04-16</span>
+        </div>
+        <div class="card-summary">
+          <p>南方医院HAIP平台重构医疗AI新范式，以底层算力、数据资产为核心的"操作系统"，将长出无数专科大模型和医生数字分身。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>AI应用"打零工"困境，需统筹整合全院AI能力</div>
+            <div class="case-field"><strong>实施路径</strong>华为提供算力支持，医院提供临床场景和需求</div>
+            <div class="case-field"><strong>核心价值</strong>告别单点AI，走向平台化、系统化AI建设</div>
+            <div class="case-field"><strong>可复用经验</strong>产医深度合作，平台化思维统筹AI资源</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">算力提升+30%</span>
+            <span class="kpi">肝癌早诊率23%→67%</span>
+            <span class="kpi">节约医保7500万</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://news.qq.com/rain/a/20260416A061H600" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 案例3：顺德医院 -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://www.sddermyy.com/newsinfo/9025963.html" target="_blank">
+            【标杆案例】暨南大学附属顺德医院：AI智慧康护机器人获评省级标杆案例
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">佛山标杆</span>
+          <span>顺德医院官网</span>
+          <span>2026-04-02</span>
+        </div>
+        <div class="card-summary">
+          <p>暨南大学附属顺德医院"神经外科病房AI智慧康护机器人应用实践"项目入选<span class="highlight">2026年广东省医院人工智能应用实践标杆案例</span>。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>神经外科护理工作强度高，需智能化辅助</div>
+            <div class="case-field"><strong>实施路径</strong>引入AI康护机器人，实现病房智能化管理</div>
+            <div class="case-field"><strong>核心功能</strong>患者状态监测、护理提醒、医嘱执行辅助</div>
+            <div class="case-field"><strong>可复用经验</strong>AI+医疗护理融合创新，填补省内空白</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">省级标杆案例</span>
+            <span class="kpi">AI+医疗护理融合</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://www.sddermyy.com/newsinfo/9025963.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 案例4：北京世纪坛 -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://www3.xinhuanet.com/tech/20260415/ddfdbcb12bc94eaf968dd314424f3582/c.html" target="_blank">
+            【标杆案例】北京世纪坛医院：AI覆盖患者服务、临床辅助、医疗管理三大领域
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">国家级标杆</span>
+          <span>新华网</span>
+          <span>2026-04-15</span>
+        </div>
+        <div class="card-summary">
+          <p>院长张骞介绍，该院AI应用已覆盖患者服务、临床辅助、医疗管理等多个领域，形成<span class="highlight">全场景AI覆盖</span>的标杆实践。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>探索医疗AI规模化落地路径</div>
+            <div class="case-field"><strong>实施路径</strong>病历质控+智能预问诊+检验报告智能解读三线并进</div>
+            <div class="case-field"><strong>核心成效</strong>累计服务10万+人次，形成可复制的经验</div>
+            <div class="case-field"><strong>可复用经验</strong>AI工具与临床深度绑定，循序渐进推进</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">10万+人次服务</span>
+            <span class="kpi">三大领域AI覆盖</span>
+            <span class="kpi">全场景落地</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://www3.xinhuanet.com/tech/20260415/ddfdbcb12bc94eaf968dd314424f3582/c.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 板块三：管理建议 ===== -->
+  <div class="section">
+    <div class="section-header advice">
+      <span class="icon">💡</span>
+      <span>管理建议</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 建议1 -->
+      <div class="advice-card">
+        <span class="advice-num">1</span>
+        <span class="advice-title">借力CHIMA 2026，系统梳理医院信息化下一步路径</span>
+        <div class="advice-body">
+          <p>CHIMA 2026今日在珠海开幕，这是医院信息化负责人不可错过的年度盛会。建议重点关注：</p>
+          <ul>
+            <li><span class="action-tag">行动项</span>搜集大会各论坛议题，重点关注智慧医院建设、医疗AI落地案例</li>
+            <li><span class="action-tag">行动项</span>记录各厂商展示的AI产品及报价，作为后续采购参考</li>
+            <li><span class="action-tag">行动项</span>与同行交流信息化评审经验，特别是互联互通测评和电子病历评级</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 建议2 -->
+      <div class="advice-card">
+        <span class="advice-num">2</span>
+        <span class="advice-title">跟进广东AI行动方案，对接"粤医智影""粤医慧诊"省级平台</span>
+        <div class="advice-body">
+          <p>广东省AI行动方案明确推广"粤医智影"智能阅片、"粤医慧诊"智能临床辅助决策系统，建议：</p>
+          <ul>
+            <li><span class="action-tag">行动项</span>主动对接省级平台，了解接入条件和试点政策</li>
+            <li><span class="action-tag">行动项</span>评估医院影像AI、临床辅助决策的现状与缺口</li>
+            <li><span class="action-tag">行动项</span>将AI应用纳入医院信息化整体规划，争取省级资源支持</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 建议3 -->
+      <div class="advice-card">
+        <span class="advice-num">3</span>
+        <span class="advice-title">借鉴"产研用"闭环思维，推进院内AI项目从需求到落地</span>
+        <div class="advice-body">
+          <p>佛山南海"产研用"闭环经验值得借鉴，建议医院信息科：</p>
+          <ul>
+            <li><span class="action-tag">行动项</span>建立临床需求征集机制，让科室提出AI应用需求</li>
+            <li><span class="action-tag">行动项</span>选择1-2个痛点明确的场景（如病历质控、检验报告解读）试点</li>
+            <li><span class="action-tag">行动项</span>与信息化厂商建立深度合作，而非简单的采购关系</li>
+            <li><span class="action-tag">行动项</span>沉淀试点经验，形成可复制的AI应用模板</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 建议4 -->
+      <div class="advice-card">
+        <span class="advice-num">4</span>
+        <span class="advice-title">参考HAIP平台思路，规划医院AI基础能力平台化建设</span>
+        <div class="advice-body">
+          <p>南方医院HAIP平台的"AI操作系统"思路对地市级医院有重要参考价值：</p>
+          <ul>
+            <li><span class="action-tag">行动项</span>评估现有AI应用碎片化问题，识别统筹整合需求</li>
+            <li><span class="action-tag">行动项</span>与厂商探讨平台化AI建设方案，避免单点采购</li>
+            <li><span class="action-tag">行动项</span>预留算力和数据接口，支持未来专科AI模型扩展</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 脚注 -->
+  <div class="footer">
+    <p>📌 生成时间：2026-04-23 08:16 | 内容覆盖：近7天（4月16日-23日）</p>
+    <p>🏢 本简报由佛山复星禅诚医院信息科自动生成 | <strong>仅供内部参考</strong></p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -135,46 +135,104 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
 
 
 def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str]:
-    """构建HTML报告，返回(文件路径, 标题, 摘要)"""
+    """构建首页并同步历史日报到GitHub，返回(首页路径, 今日标题, 今日摘要)"""
     today = datetime.now().strftime("%Y-%m-%d")
-    report_file = REPO_DIR / "index.html"
-    template_file = REPO_DIR / "template.html"
-
-    # 读取模板
-    if template_file.exists():
-        template = read_template(template_file)
-    else:
-        template = read_template(Path(__file__).parent / "template.html")
-
-    # 扫描今日HTML获取内容
-    pdf_dir = cfg["report_dir"]
-    today_html = None
-    for pattern in [f"医院信息化与AI每日简报_{today}.html", f"日报_{today}.html"]:
-        files = list(pdf_dir.glob(pattern))
-        if files:
-            today_html = sorted(files, key=lambda p: p.stat().st_mtime, reverse=True)[0]
-            break
-
-    if today_html:
-        # 直接复制今日HTML
-        html = today_html.read_text(encoding="utf-8")
-        logger.info(f"已使用今日报告：{today_html.name}")
-        # 提取标题和摘要（传入文件名作为标题）
-        report_title, report_summary = extract_summary_from_html(html, today_html.stem)
+    report_dir = cfg["report_dir"]
+    
+    # 1. 扫描源目录获取所有日报（按日期倒序）
+    all_reports = []
+    for pattern in ["*简报_*.html", "*日报_*.html"]:
+        files = list(report_dir.glob(pattern))
+        for f in files:
+            # 提取日期
+            date_match = re.search(r'(\d{4}-\d{2}-\d{2})', f.name)
+            if date_match:
+                all_reports.append({
+                    "path": f,
+                    "date": date_match.group(1),
+                    "name": f.name
+                })
+    
+    # 去重并排序（最近7天）
+    seen = set()
+    recent_reports = []
+    for r in sorted(all_reports, key=lambda x: x["date"], reverse=True):
+        if r["date"] not in seen:
+            seen.add(r["date"])
+            recent_reports.append(r)
+            if len(recent_reports) >= 7:
+                break
+    
+    logger.info(f"找到 {len(all_reports)} 份历史日报，取最近 {len(recent_reports)} 份")
+    
+    # 2. 复制所有历史日报到仓库
+    copied_count = 0
+    today_report = None
+    for r in all_reports:
+        dest_file = REPO_DIR / r["name"]
+        # 只在文件不存在或内容变化时复制
+        if not dest_file.exists() or dest_file.read_text(encoding="utf-8") != r["path"].read_text(encoding="utf-8"):
+            dest_file.write_text(r["path"].read_text(encoding="utf-8"), encoding="utf-8")
+            copied_count += 1
+        if r["date"] == today:
+            today_report = r
+    
+    logger.info(f"已同步 {copied_count} 份日报到仓库")
+    
+    # 3. 生成首页（展示近7天日报列表）
+    today_str = datetime.now().strftime("%Y年%m月%d日")
+    index_html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>医院信息化与AI动态日报</title>
+  <style>
+    body {{ font-family: "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; padding: 20px; }}
+    .container {{ max-width: 600px; margin: 0 auto; }}
+    h1 {{ color: #1a3a6b; text-align: center; margin-bottom: 30px; }}
+    .report-list {{ background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }}
+    .report-item {{ padding: 16px 20px; border-bottom: 1px solid #eee; }}
+    .report-item:last-child {{ border-bottom: none; }}
+    .report-item a {{ color: #1565C0; text-decoration: none; font-size: 16px; display: block; }}
+    .report-item a:hover {{ text-decoration: underline; }}
+    .report-item .date {{ color: #888; font-size: 13px; margin-top: 4px; }}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏥 医院信息化与AI动态日报</h1>
+    <div class="report-list">
+"""
+    
+    for r in recent_reports:
+        # 转换日期格式
+        date_display = datetime.strptime(r["date"], "%Y-%m-%d").strftime("%Y年%m月%d日")
+        is_today = "（今日）" if r["date"] == today else ""
+        index_html += f"""      <div class="report-item">
+        <a href="{r['name']}">{date_display} {is_today}</a>
+      </div>
+"""
+    
+    index_html += """    </div>
+  </div>
+</body>
+</html>"""
+    
+    index_file = REPO_DIR / "index.html"
+    index_file.write_text(index_html, encoding="utf-8")
+    logger.info(f"首页已生成，共 {len(recent_reports)} 份日报")
+    
+    # 4. 提取今日报告摘要
+    if today_report:
+        html_content = today_report["path"].read_text(encoding="utf-8")
+        report_title, report_summary = extract_summary_from_html(html_content, today_report["name"])
+        logger.info(f"已使用今日报告：{today_report['name']}")
     else:
         report_title = f"医院信息化与AI动态 {today}"
-        report_summary = "报告已更新，请点击查看详情"
-        # 使用模板生成简单页面
-        html = template
-        html = html.replace("__TITLE__", report_title)
-        html = html.replace("__DATE__", today)
-        html = html.replace("__COUNT__", "若干")
-        html = html.replace("__CONTENT__", f'<div class="card"><p>{report_summary}</p></div>')
-        logger.info("未找到今日HTML，使用模板生成")
-
-    report_file.write_text(html, encoding="utf-8")
-    logger.info(f"HTML 报告已生成：{report_file.name}")
-    return report_file, report_title, report_summary
+        report_summary = "今日报告已更新，请点击查看详情"
+        logger.info("未找到今日报告")
+    
+    return index_file, report_title, report_summary
 
 
 def push_to_github(logger: logging.Logger) -> str:

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>医院信息化与AI每日简报 2026-04-15</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px 16px 40px;
+  }
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #003399, #0055cc);
+    color: #fff;
+    border-radius: 12px 12px 0 0;
+    padding: 24px 28px 20px;
+  }
+  .header .date {
+    font-size: 12px;
+    opacity: 0.8;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .header .subtitle {
+    font-size: 12px;
+    opacity: 0.75;
+  }
+  /* Sections */
+  .section {
+    background: #fff;
+    margin-bottom: 12px;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+  }
+  .section + .section {
+    border-radius: 12px;
+    margin-top: -12px;
+  }
+  .section-header {
+    padding: 14px 20px 10px;
+    border-bottom: 1px solid #f0f2f5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-header .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .news .icon { background: #e8f0fe; color: #1a73e8; }
+  .case .icon { background: #e6f4ea; color: #137333; }
+  .advice .icon { background: #fef7e0; color: #e37400; }
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+  }
+  /* Cards */
+  .card {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .card:last-child { border-bottom: none; }
+  .card-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .tag-blue { background: #e8f0fe; color: #1a73e8; }
+  .tag-green { background: #e6f4ea; color: #137333; }
+  .tag-orange { background: #fef7e0; color: #e37400; }
+  .card-source { font-size: 12px; color: #888; }
+  .card-date { font-size: 12px; color: #aaa; }
+  .card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .card-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .card-title a:hover { color: #1a73e8; }
+  .card-summary {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .card-link {
+    font-size: 12px;
+    color: #1a73e8;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .card-link:hover { text-decoration: underline; }
+  /* Divider */
+  .section-divider {
+    height: 12px;
+  }
+  /* Footer */
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    color: #aaa;
+    padding: 16px 0;
+    line-height: 1.8;
+  }
+  /* Responsive */
+  @media (max-width: 480px) {
+    .header h1 { font-size: 17px; }
+    .card { padding: 14px 16px; }
+    .section-header { padding: 12px 16px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="date">2026年4月15日 · 星期三</div>
+    <h1>医院信息化与AI每日简报</h1>
+    <div class="subtitle">行业动态 · 标杆案例 · 管理建议</div>
+  </div>
+
+  <!-- Section 1: 行业动态 -->
+  <div class="section news">
+    <div class="section-header">
+      <div class="icon">📡</div>
+      <div class="section-title">行业动态</div>
+    </div>
+
+    <!-- 动态1 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-blue">政策</span>
+        <span class="card-source">国家药监局</span>
+        <span class="card-date">2026-04-02</span>
+      </div>
+      <div class="card-title"><a href="https://www.cpi.ac.cn/jgzc/gfwj/202604/t20260402_429652.html" target="_blank">国家药监局发布《关于"人工智能+药品监管"的实施意见》</a></div>
+      <div class="card-summary">2026年4月2日，国家药监局正式发布该意见，旨在推进人工智能与药品监管深度融合，明确提出构建智能化药品监管体系，涉及AI辅助审评审批、药物警戒、风险预警等核心场景，并要求各级药品监管部门加快信息化基础设施升级，建立覆盖药品全生命周期的AI监管能力。该文件的出台标志着医疗AI监管从试点走向制度化，对各级医疗机构引入AI辅助药品管理具有直接指导意义。</div>
+      <a class="card-link" href="https://www.cpi.ac.cn/jgzc/gfwj/202604/t20260402_429652.html" target="_blank">原文链接 →</a>
+    </div>
+
+    <!-- 动态2 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-blue">标杆</span>
+        <span class="card-source">华为官网 / 广东省卫健委</span>
+        <span class="card-date">2026-04-10</span>
+      </div>
+      <div class="card-title"><a href="https://e.huawei.com/cn/news/2026/industries/healthcare/general-artificial-intelligence-platform-hospitals" target="_blank">南方医院联合华为发布医院通用AI平台（HAIP），广东卫健委指导推动</a></div>
+      <div class="card-summary">4月10日，"AI驱动智慧医院建设新范式高峰论坛"在广州举行，南方医科大学南方医院联合华为及多家医疗机构全球首发医院通用人工智能平台（HAIP）。该平台定位为医院专属"AI操作系统"，采用"能力底座+智能中枢+工具引擎"三位一体架构，基于昇腾/鲲鹏100%自主创新算力，通过AI数据湖打破全院数据孤岛，算力利用率提升30%以上。目前已落地慢病管理大模型"智肾"、麻醉管理"南方智麻"、病理AI辅助诊断、病案质控等场景，覆盖临床、服务、科研、运营四大领域，并同步发布技术白皮书与联合创新实验室。</div>
+      <a class="card-link" href="https://e.huawei.com/cn/news/2026/industries/healthcare/general-artificial-intelligence-platform-hospitals" target="_blank">原文链接 →</a>
+    </div>
+
+    <!-- 动态3 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-blue">产业</span>
+        <span class="card-source">CMEF官方 / 商务动态</span>
+        <span class="card-date">2026-04-09~12</span>
+      </div>
+      <div class="card-title"><a href="https://sww.sh.gov.cn/swdt/20260409/990d2d7f8da9486e8f3ba320a80e1fa8.html" target="_blank">第93届CMEF在上海举办，全球医疗健康企业聚焦数智化</a></div>
+      <div class="card-summary">4月9日至12日，第93届中国国际医疗器械博览会（CMEF）在上海举办，全球医疗健康企业聚首，前沿首发新品同台竞技。本届CMEF以"数智融合"为主线，多家企业发布AI辅助诊断、手术机器人、智能监护等新一代数智化产品。值得关注的是，多个国产AI医学影像设备参展并获临床采购意向，标志着国产高端医疗装备在AI赋能下加速进入三甲医院配置名单。</div>
+      <a class="card-link" href="https://sww.sh.gov.cn/swdt/20260409/990d2d7f8da9486e8f3ba320a80e1fa8.html" target="_blank">原文链接 →</a>
+    </div>
+
+    <!-- 动态4 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-blue">产业</span>
+        <span class="card-source">工信部 / AI信息日报</span>
+        <span class="card-date">2026-04-12</span>
+      </div>
+      <div class="card-title"><a href="https://www.cnblogs.com/terrorpig/p/19855495" target="_blank">工信部将发布一批"人工智能+"高价值场景，医疗装备领域在列</a></div>
+      <div class="card-summary">据AI信息日报4月12日报道，工信部即将发布一批"人工智能+"高价值场景清单，涵盖医疗装备、智能制造、智慧城市等多个重点领域。医疗方向预计将涉及AI辅助诊断、医疗机器人、智能监护、精准医疗等高价值应用场景的标准化建设指引。该清单的出台将进一步明确医疗AI规模化应用的方向，为各级医院信息化采购与规划提供参考依据。</div>
+      <a class="card-link" href="https://www.cnblogs.com/terrorpig/p/19855495" target="_blank">原文链接 →</a>
+    </div>
+
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Section 2: 标杆案例 -->
+  <div class="section case">
+    <div class="section-header">
+      <div class="icon">🏆</div>
+      <div class="section-title">标杆案例</div>
+    </div>
+
+    <!-- 标杆案例1 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-green">【标杆案例】</span>
+        <span class="card-source">暨南大学附属顺德医院官网</span>
+        <span class="card-date">2026-04-02</span>
+      </div>
+      <div class="card-title"><a href="https://www.sddermyy.com/newsinfo/9025963.html" target="_blank">暨南大学附属顺德医院：神经外科病房AI智慧康护机器人应用实践</a></div>
+      <div class="card-summary">
+        <strong>建设背景：</strong>神经外科收治脑外伤、脑出血、脑肿瘤等重症患者，护理专业性强，传统宣教模式存在效率低、内容不统一、信息断层等痛点。2024年7月启动数字化转型。<br>
+        <strong>实施路径：</strong>①部署具备自主移动与导航避障能力的病房专用机器人，集成机器人操作系统与医患端小程序；②聚焦5大核心病种构建覆盖9大版块的全周期数字化知识图谱，完成50余种疾病资源开发；③自研AI专家模型自动生成个性化每日宣教计划，"AI生成+人工审核"双重保障。<br>
+        <strong>量化成效（2025.11-2026.01）：</strong>服务185人次床边智能宣教，236位患者获取个性化康复方案；替代护士30%以上重复性宣教工作量，单台机器人能效相当于3名护士；实现24小时全天候标准化服务，杜绝人工讲解偏差。<br>
+        <strong>可复用经验：</strong>"数字化知识库+智能机器人"耦合模式具备跨科室推广价值；"AI生成+人工审核"机制保障医疗安全底线；填补国内专科化AI护理机器人应用空白。
+      </div>
+      <a class="card-link" href="https://www.sddermyy.com/newsinfo/9025963.html" target="_blank">原文链接 →</a>
+    </div>
+
+    <!-- 标杆案例2 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-green">【标杆案例】</span>
+        <span class="card-source">佛山市中医院 / 广东省卫健委</span>
+        <span class="card-date">2026-01-06</span>
+      </div>
+      <div class="card-title"><a href="https://www.sohu.com/a/973206758_121118796" target="_blank">佛山市中医院：AI骨科术前规划 + 智能骨伤辨证系统（省级示范案例）</a></div>
+      <div class="card-summary">
+        <strong>建设背景：</strong>佛山市中医院是全国知名中医骨伤专科医院，骨科手术量大，术前规划依赖经验判断，缺乏标准化工具。2025年3月在全国率先上线AI骨科术前规划门诊，并入选广东省首批"人工智能+医疗卫生"应用场景示范案例（共289个）。<br>
+        <strong>实施路径：</strong>①一键上传患者CT/MRI影像，系统AI自动生成三维手术规划方案，切口路径精准至亚毫米级；②智能推荐最佳关节假体配置，模拟完整手术过程；③同步开发基于中医辨证论治理念的智能骨伤辅助系统，实现中西医AI融合。<br>
+        <strong>量化成效：</strong>单台手术规划生成时间由传统数小时缩短至分钟级；假体配置精准度大幅提升，减少术中调整次数；已接诊首位患者并推广至骨关节手术全流程。<br>
+        <strong>可复用经验：</strong>中医骨科AI术前规划为全国首创，具有高度示范价值；影像AI+中医辨证融合路径为中西医结合AI应用提供了可复制的技术方案；区域辐射效应已通过远程智慧医疗惠及更多基层患者。
+      </div>
+      <a class="card-link" href="https://www.sohu.com/a/973206758_121118796" target="_blank">原文链接 →</a>
+    </div>
+
+  </div>
+
+  <div class="section-divider"></div>
+
+  <!-- Section 3: 管理建议 -->
+  <div class="section advice">
+    <div class="section-header">
+      <div class="icon">💡</div>
+      <div class="section-title">管理建议</div>
+    </div>
+
+    <!-- 建议1 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-orange">【管理建议】</span>
+        <span class="card-source">实操建议</span>
+        <span class="card-date">2026-04-15</span>
+      </div>
+      <div class="card-title">借助区域HAIP生态东风，以"平台优先"思路重构院内AI建设规划</div>
+      <div class="card-summary">
+        南方医院HAIP平台的发布标志着广东区域医院AI建设从"单点应用"进入"平台化统筹"阶段。建议信息科在下一年度规划中：①优先评估HAIP或同类医院AI中台对自身需求的适配性，避免重复建设；②将现有AI应用（影像、病理、病案质控等）纳入统一数据底座统筹管理，打通数据孤岛；③重点关注平台提供的"AI算力利用率提升30%以上"的量化价值，作为项目立项的效益测算依据；④提前梳理院内慢病管理、电子病历等数据资产，为接入区域AI平台做准备。
+      </div>
+    </div>
+
+    <!-- 建议2 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-orange">【管理建议】</span>
+        <span class="card-source">合规管理</span>
+        <span class="card-date">2026-04-15</span>
+      </div>
+      <div class="card-title">应对"AI+药品监管"新规：院内药品AI管理系统需同步完成合规适配</div>
+      <div class="card-summary">
+        2026年4月国家药监局发布的《关于"人工智能+药品监管"的实施意见》对医疗机构有直接约束：①如院内在用药品管理涉及AI辅助（如麻精药品AI审核、库存智能补货等），需确认系统功能符合文件要求的数据安全和伦理规范；②药品AI辅助决策须保留"人工复核"机制，不得以AI替代药师判断；③建议信息科联合药剂科对现有药品AI功能开展合规自查，重点排查数据来源是否合规、算法决策是否可解释；④新建药品AI项目须将监管合规要求写入招标文件功能条款，从源头管控。
+      </div>
+    </div>
+
+    <!-- 建议3 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-orange">【管理建议】</span>
+        <span class="card-source">运维管理</span>
+        <span class="card-date">2026-04-15</span>
+      </div>
+      <div class="card-title">借鉴顺德医院"AI+人机协同"模式，重构护理信息化的人力价值评估体系</div>
+      <div class="card-summary">
+        顺德医院AI护理机器人实现"替代护士30%重复工作量"的数据，为信息科评估AI项目提供了方法论参考。建议：①建立院内AI项目"人力替代当量"量化评估模型，以实际释放工时作为核心效益指标，而非单纯节省成本；②护理信息化项目立项前，由护理部与信息科联合梳理可被AI替代的重复性任务清单，优先选择高频、可标准化场景；③参考"AI生成+人工审核"双重机制，建立所有临床AI应用的人工复核SOP；④在引入AI机器人前完成网络安全评估，确保与医院内网和HIS系统的对接方案经过安全评审。
+      </div>
+    </div>
+
+    <!-- 建议4 -->
+    <div class="card">
+      <div class="card-meta">
+        <span class="tag tag-orange">【管理建议】</span>
+        <span class="card-source">团队建设</span>
+        <span class="card-date">2026-04-15</span>
+      </div>
+      <div class="card-title">以CMEF数智风向为参照，制定信息科年度技术能力提升计划</div>
+      <div class="card-summary">
+        CMEF 2026传递的核心信号是国产高端医疗装备与AI加速融合，三甲医院信息科需同步升级能力边界：①建议信息科上半年完成对院内现有AI医学影像设备的全面摸排，建立"AI设备清单+合规状态+续保计划"台账；②针对CMEF展出的手术机器人、智能监护等新品，提前研究其与医院信息化基础架构（集成平台、HIS对接）的兼容方案；③选派骨干参加医疗AI产品经理培训，掌握AI产品评估能力，避免完全依赖厂商推荐；④建立"厂商新品月度简报"机制，由信息科指定专人定期整理行业动态，为年度采购规划积累素材。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    本简报由自动化系统生成 · 仅供内部参考<br>
+    信息来源：国家药监局官网、华为企业业务、广东省卫健委、暨南大学附属顺德医院、佛山市中医院、CMEF官方、新华网<br>
+    生成时间：2026-04-15 07:57
+  </div>
+
+</div>
+</body>
+</html>
