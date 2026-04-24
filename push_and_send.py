@@ -176,7 +176,7 @@ def send_action_card(webhook: str, title: str, summary: str, url: str, logger: l
         "msgtype": "actionCard",
         "actionCard": {
             "title": title,
-            "markdown": f"## {title}\n\n{summary}\n\n---",
+            "text": f"{title}\n\n{summary}\n\n点击查看完整报告",
             "single_title": "查看完整报告",
             "single_url": url
         }
