@@ -88,11 +88,11 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
     标题格式：医院信息化与AI每日简报_2026-04-24
     摘要格式：
         **【行业动态】**
-        1. **标题**：摘要（第一句，50字内）
-        2. **标题**：摘要（第一句，50字内）
+        1. **标题**：摘要（第一句）
+        2. **标题**：摘要（第一句）
         ...
         **【标杆案例】**
-        1. **标题**：摘要（第一句，50字内）
+        1. **标题**：摘要（第一句）
         ...
     """
     
@@ -100,15 +100,12 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
     title = filename.replace(".html", "") if filename else "医院信息化与AI每日简报"
     
     def strip_html(text: str) -> str:
-        """去除HTML标签并清理空白"""
         text = re.sub(r'<[^>]+>', '', text)
         text = re.sub(r'\s+', ' ', text).strip()
         return text
     
-    def get_first_sentence(text: str, max_len: int = 50) -> str:
-        """提取第一句，限制长度"""
+    def get_first_sentence(text: str, max_len: int = 999) -> str:
         text = text.strip()
-        # 找到第一个句号/分号/逗号（中文优先）
         for sep in ['。', '；', '，', '.', ';', ',']:
             if sep in text:
                 text = text.split(sep)[0] + sep
@@ -118,40 +115,46 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
         return text
     
     # 通用卡片提取正则：兼容 "card" 和 "card case-block" 等多 class 写法
-    card_pattern = r'<div class="card(?: \w+)*">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>'
+    card_pattern = r'<div class="card(?: [\w-]+)*">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>'
+    
+    # ── 通过 section 位置切分，找到每个板块的完整内容 ──
+    header_positions = [(m.start(), m.group()) for m in re.finditer(r'<div class="section-header \w+">', html_content)]
+    
+    def get_section_html(section_class: str) -> str:
+        """按 section 类型名提取完整 section HTML（到下一个 section-header 或文件末尾）"""
+        idx = next((i for i, (_, h) in enumerate(header_positions) if section_class in h), None)
+        if idx is None:
+            return ""
+        start = header_positions[idx][0]
+        end = header_positions[idx + 1][0] if idx + 1 < len(header_positions) else len(html_content)
+        return html_content[start:end]
     
     lines = []
     
     # ── 行业动态 ──
-    dynamics_match = re.search(
-        r'<div class="section-header dynamics">.*?<span>行业动态[^<]*</span>.*?<div class="section-body">(.*?)</div>\s*</div>\s*<!-- =====',
-        html_content, re.DOTALL
-    )
-    if dynamics_match:
-        cards = re.findall(card_pattern, dynamics_match.group(1), re.DOTALL)
+    dynamics_html = get_section_html("dynamics")
+    if dynamics_html:
+        cards = re.findall(card_pattern, dynamics_html, re.DOTALL)
         lines.append("**【行业动态】**")
-        for i, (card_title, card_summary) in enumerate(cards[:4], 1):
+        for i, (card_title, card_summary) in enumerate(cards, 1):
             card_title = strip_html(card_title)
             card_summary = strip_html(card_summary)
-            card_summary = get_first_sentence(card_summary, 40)
-            # 标题超长截断
+            card_summary = get_first_sentence(card_summary, 999)
             if len(card_title) > 35:
                 card_title = card_title[:35] + "..."
             lines.append(f"{i}. **{card_title}**：{card_summary}")
     
     # ── 标杆案例 ──
-    case_match = re.search(
-        r'<div class="section-header case">.*?<span>标杆案例[^<]*</span>.*?<div class="section-body">(.*?)</div>\s*</div>',
-        html_content, re.DOTALL
-    )
-    if case_match:
-        cards = re.findall(card_pattern, case_match.group(1), re.DOTALL)
+    case_html = get_section_html("case")
+    if case_html:
+        cards = re.findall(card_pattern, case_html, re.DOTALL)
         lines.append("")
         lines.append("**【标杆案例】**")
-        for i, (card_title, card_summary) in enumerate(cards[:2], 1):
+        for i, (card_title, card_summary) in enumerate(cards, 1):
             card_title = strip_html(card_title)
+            card_title = re.sub(r'^【标杆案例】', '', card_title).strip()
             card_summary = strip_html(card_summary)
-            card_summary = get_first_sentence(card_summary, 40)
+            card_summary = get_first_sentence(card_summary, 999)
             if len(card_title) > 35:
                 card_title = card_title[:35] + "..."
             lines.append(f"{i}. **{card_title}**：{card_summary}")
