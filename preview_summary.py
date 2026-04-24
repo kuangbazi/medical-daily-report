@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""预览完整 Markdown"""
+"""预览最终卡片 MD 内容"""
 import sys
 sys.stdout.reconfigure(encoding="utf-8")
 
@@ -13,14 +13,11 @@ def strip_html(text: str) -> str:
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
-def get_first_sentence(text: str, max_len: int = 999) -> str:
+def first_sentence(text: str) -> str:
     text = text.strip()
     for sep in ['。', '；', '，', '.', ';', ',']:
         if sep in text:
-            text = text.split(sep)[0] + sep
-            break
-    if len(text) > max_len:
-        text = text[:max_len] + "..."
+            return text.split(sep)[0] + sep
     return text
 
 card_pattern = r'<div class="card(?: [\w-]+)*">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>'
@@ -36,44 +33,40 @@ title = filename.replace(".html", "")
 
 header_positions = [(m.start(), m.group()) for m in re.finditer(r'<div class="section-header \w+">', html)]
 
-def get_section_html(section_class):
-    idx = next((i for i, (_, h) in enumerate(header_positions) if section_class in h), None)
+def get_section_html(cls):
+    idx = next((i for i, (_, h) in enumerate(header_positions) if cls in h), None)
     if idx is None:
         return ""
     start = header_positions[idx][0]
     end = header_positions[idx + 1][0] if idx + 1 < len(header_positions) else len(html)
     return html[start:end]
 
-lines = [f"**{title}**", ""]
+md_lines = [f"**{title}**", ""]
 
 dynamics_html = get_section_html("dynamics")
 if dynamics_html:
     cards = re.findall(card_pattern, dynamics_html, re.DOTALL)
-    print(f"[DEBUG] 行业动态共 {len(cards)} 条")
-    lines.append("**【行业动态】**")
+    print(f"[DEBUG] 行业动态 {len(cards)} 条")
+    md_lines.append("**【行业动态】**")
     for i, (card_title, card_summary) in enumerate(cards, 1):
         card_title = strip_html(card_title)
         card_summary = strip_html(card_summary)
-        card_summary = get_first_sentence(card_summary, 999)
-        if len(card_title) > 35:
-            card_title = card_title[:35] + "..."
-        lines.append(f"{i}. **{card_title}**：{card_summary}")
+        md_lines.append(f"{i}. **{card_title}**：{first_sentence(card_summary)}")
 
 case_html = get_section_html("case")
 if case_html:
     cards = re.findall(card_pattern, case_html, re.DOTALL)
-    print(f"[DEBUG] 标杆案例共 {len(cards)} 条")
-    lines.append("")
-    lines.append("**【标杆案例】**")
+    print(f"[DEBUG] 标杆案例 {len(cards)} 条")
+    md_lines.append("")
+    md_lines.append("**【标杆案例】**")
     for i, (card_title, card_summary) in enumerate(cards, 1):
         card_title = strip_html(card_title)
         card_title = re.sub(r'^【标杆案例】', '', card_title).strip()
         card_summary = strip_html(card_summary)
-        card_summary = get_first_sentence(card_summary, 999)
-        if len(card_title) > 35:
-            card_title = card_title[:35] + "..."
-        lines.append(f"{i}. **{card_title}**：{card_summary}")
+        md_lines.append(f"{i}. **{card_title}**：{first_sentence(card_summary)}")
 
+md_content = "\n".join(md_lines)
 print("\n" + "="*60)
-print("\n".join(lines))
+print(md_content)
 print("="*60)
+print(f"\n字符数: {len(md_content)}")

@@ -83,20 +83,20 @@ def read_template(template_path: Path) -> str:
 
 
 def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[str, str]:
-    """从HTML报告中提取标题和摘要，返回(标题, 摘要内容)
+    """将 HTML 报告转换为 Markdown，返回 (标题, MD正文)
     
-    标题格式：医院信息化与AI每日简报_2026-04-24
-    摘要格式：
+    MD 格式：
+        **文件名（加粗）**
         **【行业动态】**
         1. **标题**：摘要（第一句）
-        2. **标题**：摘要（第一句）
         ...
         **【标杆案例】**
         1. **标题**：摘要（第一句）
         ...
+    同时将 MD 文件保存到仓库目录。
     """
     
-    # 标题：文件名去掉.html后缀
+    # 标题：文件名去掉 .html 后缀
     title = filename.replace(".html", "") if filename else "医院信息化与AI每日简报"
     
     def strip_html(text: str) -> str:
@@ -104,67 +104,80 @@ def extract_summary_from_html(html_content: str, filename: str = "") -> tuple[st
         text = re.sub(r'\s+', ' ', text).strip()
         return text
     
-    def get_first_sentence(text: str, max_len: int = 999) -> str:
+    def first_sentence(text: str) -> str:
         text = text.strip()
         for sep in ['。', '；', '，', '.', ';', ',']:
             if sep in text:
-                text = text.split(sep)[0] + sep
-                break
-        if len(text) > max_len:
-            text = text[:max_len] + "..."
+                return text.split(sep)[0] + sep
         return text
     
-    # 通用卡片提取正则：兼容 "card" 和 "card case-block" 等多 class 写法
     card_pattern = r'<div class="card(?: [\w-]+)*">.*?<div class="card-title">.*?<a[^>]*>([^<]+)</a>.*?<div class="card-summary">(.*?)</div>'
     
-    # ── 通过 section 位置切分，找到每个板块的完整内容 ──
+    # 按 section-header 位置切分
     header_positions = [(m.start(), m.group()) for m in re.finditer(r'<div class="section-header \w+">', html_content)]
     
-    def get_section_html(section_class: str) -> str:
-        """按 section 类型名提取完整 section HTML（到下一个 section-header 或文件末尾）"""
-        idx = next((i for i, (_, h) in enumerate(header_positions) if section_class in h), None)
+    def get_section_html(cls: str) -> str:
+        idx = next((i for i, (_, h) in enumerate(header_positions) if cls in h), None)
         if idx is None:
             return ""
         start = header_positions[idx][0]
         end = header_positions[idx + 1][0] if idx + 1 < len(header_positions) else len(html_content)
         return html_content[start:end]
     
-    lines = []
+    md_lines = [f"**{title}**", ""]
     
-    # ── 行业动态 ──
+    # 行业动态
     dynamics_html = get_section_html("dynamics")
     if dynamics_html:
         cards = re.findall(card_pattern, dynamics_html, re.DOTALL)
-        lines.append("**【行业动态】**")
+        md_lines.append("**【行业动态】**")
         for i, (card_title, card_summary) in enumerate(cards, 1):
             card_title = strip_html(card_title)
             card_summary = strip_html(card_summary)
-            card_summary = get_first_sentence(card_summary, 999)
-            if len(card_title) > 35:
-                card_title = card_title[:35] + "..."
-            lines.append(f"{i}. **{card_title}**：{card_summary}")
+            md_lines.append(f"{i}. **{card_title}**：{first_sentence(card_summary)}")
     
-    # ── 标杆案例 ──
+    # 标杆案例
     case_html = get_section_html("case")
     if case_html:
         cards = re.findall(card_pattern, case_html, re.DOTALL)
-        lines.append("")
-        lines.append("**【标杆案例】**")
+        md_lines.append("")
+        md_lines.append("**【标杆案例】**")
         for i, (card_title, card_summary) in enumerate(cards, 1):
             card_title = strip_html(card_title)
             card_title = re.sub(r'^【标杆案例】', '', card_title).strip()
             card_summary = strip_html(card_summary)
-            card_summary = get_first_sentence(card_summary, 999)
-            if len(card_title) > 35:
-                card_title = card_title[:35] + "..."
-            lines.append(f"{i}. **{card_title}**：{card_summary}")
+            md_lines.append(f"{i}. **{card_title}**：{first_sentence(card_summary)}")
     
-    if not lines:
+    if len(md_lines) <= 2:
         date_match = re.search(r'(\d{4}年\d{1,2}月\d{1,2}日)', html_content)
         date_str = date_match.group(1) if date_match else datetime.now().strftime("%Y年%m月%d日")
-        return (title, f"{date_str} 报告已更新，请点击查看详情")
+        md_content = f"**{title}**\n\n{date_str} 报告已更新，请点击查看详情。"
+    else:
+        md_content = "\n".join(md_lines)
     
-    return (title, "\n".join(lines))
+    return (title, md_content)
+
+
+def read_md_summary(report_dir: Path, logger: logging.Logger) -> tuple[str, str]:
+    """读取钉钉摘要MD文件，返回 (标题, MD正文)"""
+    today = datetime.now().strftime("%Y-%m-%d")
+    
+    # 扫描钉钉摘要MD文件
+    for pattern in [f"*钉钉摘要_{today}.md", f"*摘要_{today}.md"]:
+        files = list(report_dir.glob(pattern))
+        if files:
+            md_file = sorted(files, key=lambda p: p.stat().st_mtime, reverse=True)[0]
+            content = md_file.read_text(encoding="utf-8")
+            
+            # 提取标题（第一行去掉#）
+            lines = content.strip().split('\n')
+            title = lines[0].lstrip('#').strip() if lines else f"医院信息化与AI每日简报_{today}"
+            
+            logger.info(f"已读取钉钉摘要MD文件：{md_file.name}")
+            return (title, content)
+    
+    logger.warning(f"未找到钉钉摘要MD文件，将从HTML提取")
+    return ("", "")
 
 
 def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str]:
@@ -189,8 +202,10 @@ def build_html_report(cfg: dict, logger: logging.Logger) -> tuple[Path, str, str
     today_file.write_text(html_content, encoding="utf-8")
     logger.info(f"今日报告已保存：{today_file.name}")
     
-    # 3. 提取今日报告摘要
-    report_title, report_summary = extract_summary_from_html(html_content, today_file.name)
+    # 3. 优先读取钉钉摘要MD文件，如果没有则从HTML提取
+    report_title, report_summary = read_md_summary(report_dir, logger)
+    if not report_summary:
+        report_title, report_summary = extract_summary_from_html(html_content, today_file.name)
     
     # 4. 生成自动跳转首页
     today_str = datetime.now().strftime("%Y年%m月%d日")
