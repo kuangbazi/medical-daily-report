@@ -275,7 +275,8 @@ def push_to_github(logger: logging.Logger) -> str:
         raise RuntimeError(f"推送失败：{push_result.stderr}")
 
     logger.info("推送完成！")
-    return f"https://{GITHUB_USERNAME}.github.io/{GITHUB_REPO}/"
+    today_date = datetime.now().strftime("%Y-%m-%d")
+    return f"https://{GITHUB_USERNAME}.github.io/{GITHUB_REPO}/{today_date}.html"
 
 
 def get_token(app_key: str, app_secret: str, logger: logging.Logger) -> str:
