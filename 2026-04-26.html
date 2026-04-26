@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医院信息化与AI每日简报 2026-04-26</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: #f0f2f5;
+      color: #222;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+    /* 头部 */
+    .header {
+      background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 60%, #1976D2 100%);
+      border-radius: 10px;
+      padding: 22px 24px 18px;
+      margin-bottom: 18px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: "🏥";
+      position: absolute;
+      right: 24px; top: 18px;
+      font-size: 44px;
+      opacity: 0.15;
+    }
+    .header .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .header .meta {
+      font-size: 12px;
+      opacity: 0.82;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .header .meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* 板块 */
+    .section { margin-bottom: 18px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 8px 8px 0 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .section-header.dynamics { background: #1565C0; }
+    .section-header.case { background: #2e7d32; }
+    .section-header .icon { font-size: 18px; }
+    .section-body {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    /* 卡片 */
+    .card {
+      padding: 16px 18px;
+      border-bottom: 1px solid #f0f0f0;
+      position: relative;
+    }
+    .card:last-child { border-bottom: none; }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .card-title a {
+      color: #1565C0;
+      text-decoration: none;
+    }
+    .card-title a:hover { text-decoration: underline; }
+    .card-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .card-meta .tag {
+      background: #e3f2fd;
+      color: #1565C0;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .card-meta .tag.green { background: #e8f5e9; color: #2e7d32; }
+    .card-meta .tag.orange { background: #fff3e0; color: #e65100; }
+    .card-summary { font-size: 13px; color: #444; line-height: 1.75; }
+    .card-summary p { margin-bottom: 4px; }
+    .card-summary ul { margin: 4px 0 4px 18px; }
+    .card-summary li { margin-bottom: 2px; }
+    .highlight { background: #fff9c4; padding: 0 2px; border-radius: 2px; }
+    .link-row {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .link-row a {
+      color: #1565C0;
+      text-decoration: none;
+      border-bottom: 1px dashed #90caf9;
+    }
+    .link-row a:hover { border-bottom-style: solid; }
+
+    /* 标杆案例专属 */
+    .case-block { background: #f9fbe7; border-left: 3px solid #7cb342; }
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .case-field { padding: 3px 0; font-size: 12.5px; }
+    .case-field strong { color: #333; min-width: 56px; display: inline-block; }
+    .kpi-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 7px;
+    }
+    .kpi {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 新标签 */
+    .tag-new {
+      display: inline-block;
+      background: #ff5252;
+      color: #fff;
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* 脚注 */
+    .footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 11px;
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer strong { color: #1565C0; }
+
+    @media (max-width: 500px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .header .title { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 头部 -->
+  <div class="header">
+    <div class="title">医院信息化与AI每日简报</div>
+    <div class="meta">
+      <span>📅 2026年4月26日（星期日）</span>
+      <span>🏢 佛山复星禅诚医院·数字科技部</span>
+      <span>📊 内容覆盖近7天（4月19日-26日）</span>
+    </div>
+  </div>
+
+  <!-- ===== 板块一：行业动态 ===== -->
+  <div class="section">
+    <div class="section-header dynamics">
+      <span class="icon">📡</span>
+      <span>行业动态（近7天）</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 动态1：基层医疗质量改善 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.gov.cn/zhengce/zhengceku/202604/content_7064456.htm" target="_blank">
+            国家卫健委等联合部署基层医疗质量改善三年行动（2026—2028年）<span class="tag-new">🆕 本周最新</span>
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">国家政策</span>
+          <span>国家卫健委/中国政府网</span>
+          <span>2026-04-01</span>
+        </div>
+        <div class="card-summary">
+          <p>国家卫生健康委办公厅与国家中医药局综合司联合印发《关于开展基层医疗卫生机构医疗质量改善三年行动（2026—2028年）的通知》，明确"三步走"工作目标。</p>
+          <ul>
+            <li>分三年逐步覆盖从乡镇卫生院（社区卫生服务中心）到村卫生室（社区卫生服务站）的基层机构</li>
+            <li>通过压实医疗质量管理责任、完善医疗质量管理制度、提升医疗质量管理意识等措施，保障医疗安全</li>
+            <li>4月15日国家卫健委召开视频部署会，强调以提升基层诊疗能力为核心</li>
+            <li>涉及信息化：基层医疗质量数据采集、质控系统建设、信息化监管手段</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.gov.cn/zhengce/zhengceku/202604/content_7064456.htm" target="_blank">→ 政策全文</a>
+        </div>
+      </div>
+
+      <!-- 动态2：医保局场景清单 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="http://health.people.com.cn/n1/2026/0415/c14739-40701703.html" target="_blank">
+            国家医保局发布《2026年度第一批医疗保障领域场景清单》：13项聚焦群众需求与医保改革<span class="tag-new">🆕 本周最新</span>
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag orange">重磅政策</span>
+          <span>国家医保局/人民日报</span>
+          <span>2026-04-15</span>
+        </div>
+        <div class="card-summary">
+          <p>国家医保局发布《2026年度第一批医疗保障领域场景清单》，涵盖深化医保数据应用、提升医保服务水平、发挥长护制度效能三方面<span class="highlight">13项</span>场景。</p>
+          <ul>
+            <li>贯彻落实党中央、国务院关于加快场景培育和开放，推动新场景大规模应用有关决策部署</li>
+            <li>围绕群众需求和医保改革需要，推动医保数据要素价值释放</li>
+            <li>涉及信息化：医保数据共享平台、智能化医保审核、DRG/DIP深化应用</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="http://health.people.com.cn/n1/2026/0415/c14739-40701703.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态3：蚂蚁健康 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="http://jjckb.xinhuanet.com/20260425/a00f6d4ced094a879181a55be219ef04/c.html" target="_blank">
+            蚂蚁健康CHIMA发布"智慧医疗AI一体化方案"：AI就医助理+AI医生助手<span class="tag-new">🆕 本周最新</span>
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">CHIMA速递</span>
+          <span>新华网/经济参考报</span>
+          <span>2026-04-25</span>
+          <span class="tag orange">🔥 今日CHIMA</span>
+        </div>
+        <div class="card-summary">
+          <p>4月25日在CHIMA 2026大会上，蚂蚁健康面向全国医疗机构推出"智慧医疗AI一体化方案"，整合两大核心产品：</p>
+          <ul>
+            <li><span class="highlight">AI就医助理</span>：患者就医全程"云陪诊"，覆盖智能导诊、挂号提醒、报告解读、用药提醒等</li>
+            <li><span class="highlight">AI医生助手</span>：面向医生端，覆盖病历生成、辅助诊断、处方审核等</li>
+            <li>支持医院智能体构建、本地大模型部署等能力，助力医院智能化升级</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="http://jjckb.xinhuanet.com/20260425/a00f6d4ced094a879181a55be219ef04/c.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态4：医疗服务价格改革 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://news.qq.com/rain/a/20260424A03XHC00" target="_blank">
+            医疗服务价格改革"收官"在即：过去两年180项前沿技术新价格项目落地临床<span class="tag-new">🆕 本周最新</span>
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">医改动态</span>
+          <span>腾讯新闻</span>
+          <span>2026-04-24</span>
+        </div>
+        <div class="card-summary">
+          <p>医疗服务价格改革闭门会释放重要信号：过去两年通过立项指南约<span class="highlight">180项</span>前沿技术的新价格项目落地临床，本质上是为创新发放"通行证"。</p>
+          <ul>
+            <li>会议指出"医疗创新不怕技术攻关，怕的是做出来之后不知道怎么收费"</li>
+            <li>国家医保局：用制度打通"最后一公里"，为创新医疗服务项目建立收费机制</li>
+            <li>涉及信息化：新增医疗服务价格项目管理平台、收费编码动态更新机制</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://news.qq.com/rain/a/20260424A03XHC00" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态5：广东AI全域应用 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.smartcity.team/policies/%e5%a4%a7%e6%a8%a1%e5%9e%8b%e6%94%bf%e7%ad%96%e5%ba%93/guangdong_ai_plan/" target="_blank">
+            广东发布AI全域应用行动方案：63项重点任务，推动"人工智能+医疗卫生"全流程深度应用<span class="tag-new">🆕 本周最新</span>
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">省级政策</span>
+          <span>广东省人民政府办公厅</span>
+          <span>2026-04-22</span>
+        </div>
+        <div class="card-summary">
+          <p>《广东省加快推进人工智能全域全时全行业高水平应用行动方案》（粤办函〔2026〕50号）正式发布，含<span class="highlight">63项重点任务</span>、十大要素保障。</p>
+          <ul>
+            <li>第57条聚焦"人工智能+医疗卫生"：推动AI在疾病预防、精准诊断、智能治疗、健康管理、医保服务、公卫防控全流程深度应用</li>
+            <li>重点推广："粤医智影"智能阅片、"粤医慧诊"智能临床辅助决策系统</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.smartcity.team/policies/%e5%a4%a7%e6%a8%a1%e5%9e%8b%e6%94%bf%e7%ad%96%e5%ba%93/guangdong_ai_plan/" target="_blank">→ 政策全文</a>
+        </div>
+      </div>
+
+      <!-- 动态6：广东289个AI+案例 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://news.qq.com/rain/a/20250714A08LWD00" target="_blank">
+            广东公布289个"人工智能+医疗卫生"落地应用案例，医学影像类最多
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">省级动态</span>
+          <span>广东省卫健委/腾讯新闻</span>
+          <span>2025-07-14</span>
+        </div>
+        <div class="card-summary">
+          <p>广东省卫健委公布第一批<span class="highlight">289个"AI+医疗卫生"应用场景案例</span>，涵盖医疗服务管理、基层公卫服务、健康管理等多个类别。</p>
+          <ul>
+            <li>医学影像类AI应用占比最高，包括智能阅片、病理分析等</li>
+            <li>智能临床辅助决策系统成为标配，覆盖诊断、治疗、预后全流程</li>
+            <li>佛山地区案例：佛山市中医院2项AI应用入选省级示范</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://news.qq.com/rain/a/20250714A08LWD00" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 动态7：五部门联合 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.digitalchina.gov.cn/2025/xwzx/qwfb/202512/t20251202_5238977.htm" target="_blank">
+            国家卫健委等五部门联合发文：促进"AI+医疗卫生"规模化推广
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">国家政策</span>
+          <span>数字中国/新华网</span>
+          <span>2025-12-02</span>
+        </div>
+        <div class="card-summary">
+          <p>五部门联合发布《关于促进和规范"人工智能+医疗卫生"应用发展的实施意见》，明确<span class="highlight">"时间表"</span>：</p>
+          <ul>
+            <li>到2027年：建立一批卫生健康行业高质量AI应用</li>
+            <li>到2030年：基层诊疗智能辅助应用基本实现</li>
+            <li>划定84类AI应用方向，建立监管框架，AI产品须经药监局审批</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.digitalchina.gov.cn/2025/xwzx/qwfb/202512/t20251202_5238977.htm" target="_blank">→ 政策全文</a>
+        </div>
+      </div>
+
+      <!-- 动态8：HIMSS 2026 -->
+      <div class="card">
+        <div class="card-title">
+          <a href="https://www.cn-healthcare.com/articlewm/20260421/content-1670690.html" target="_blank">
+            HIMSS 2026观察：Epic三大AI智能体矩阵发布，未来医院本质是"AI工厂"
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag">国际观察</span>
+          <span>HIT专家网/陈金雄</span>
+          <span>2026-04-21</span>
+        </div>
+        <div class="card-summary">
+          <p>HIMSS 2026大会汇聚75国900+展商24000+从业者，Epic推出<span class="highlight">三大AI智能体</span>：</p>
+          <ul>
+            <li>临床智能体Art：肺癌早诊率提升至69%</li>
+            <li>运营智能体Penny：预授权92%自动通过</li>
+            <li>患者服务智能体Emmie：客服咨询量-58%</li>
+            <li>未来医院本质：基于医疗数据的"AI工厂"</li>
+          </ul>
+        </div>
+        <div class="link-row">
+          <a href="https://www.cn-healthcare.com/articlewm/20260421/content-1670690.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 板块二：标杆案例 ===== -->
+  <div class="section">
+    <div class="section-header case">
+      <span class="icon">🏆</span>
+      <span>标杆案例（近7天）</span>
+      <span style="font-size:11px;font-weight:400;opacity:0.88;margin-left:auto;">优先广东/佛山同级别公立医院</span>
+    </div>
+    <div class="section-body">
+
+      <!-- 案例1：南方医院HAIP -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://news.qq.com/rain/a/20260416A061H600" target="_blank">
+            【标杆案例】南方医院HAIP平台：算力+30%，肝癌早诊率23%→67%，打造医疗AI"操作系统"
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">省级标杆</span>
+          <span>腾讯新闻/华为</span>
+          <span>2026-04-16</span>
+          <span class="tag orange">🆕 本周最新</span>
+        </div>
+        <div class="card-summary">
+          <p>4月10日，南方医科大学南方医院联合华为及多家医疗机构在广州发布<span class="highlight">医院通用人工智能平台（HAIP）</span>，重构医疗AI新范式。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>AI应用"打零工"困境，需统筹整合全院AI能力</div>
+            <div class="case-field"><strong>实施路径</strong>华为提供算力支持，医院提供临床场景和需求</div>
+            <div class="case-field"><strong>核心价值</strong>告别单点AI，走向平台化、系统化AI建设</div>
+            <div class="case-field"><strong>可复用经验</strong>产医深度合作，平台化思维统筹AI资源</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">算力提升+30%</span>
+            <span class="kpi">肝癌早诊率23%→67%</span>
+            <span class="kpi">节约医保7500万</span>
+            <span class="kpi">省卫健委指导支持</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://news.qq.com/rain/a/20260416A061H600" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 案例2：佛山中医院 -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://www.sohu.com/a/973206758_121118796" target="_blank">
+            【标杆案例】佛山市中医院：2项AI创新应用入选广东省首批"AI+医疗卫生"示范案例
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">佛山标杆</span>
+          <span>佛山市中医院/搜狐</span>
+          <span>2026-01-06</span>
+        </div>
+        <div class="card-summary">
+          <p>广东省卫健委公布首批"人工智能+医疗卫生"应用场景案例（共289个），佛山市中医院<span class="highlight">2个项目成功入选</span>。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>广东省首批遴选289个AI+医疗应用场景案例</div>
+            <div class="case-field"><strong>实施路径</strong>聚焦AI骨科术前规划、AI影像辅诊等中医特色场景</div>
+            <div class="case-field"><strong>核心价值</strong>AI+中医药融合创新，填补中医智慧化空白</div>
+            <div class="case-field"><strong>可复用经验</strong>中医医院可参考其AI+骨科+影像的落地路径</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">2项入选省级示范</span>
+            <span class="kpi">AI+骨科术前规划</span>
+            <span class="kpi">AI+影像辅诊</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://www.sohu.com/a/973206758_121118796" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 案例3：广东省人民医院 -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://www.sohu.com/a/982994520_122066678" target="_blank">
+            【标杆案例】广东省人民医院：与华为携手打造高效网络，SDN+Wi-Fi覆盖多院区
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">省级标杆</span>
+          <span>广东省人民医院/深信服</span>
+          <span>2026-02-02</span>
+        </div>
+        <div class="card-summary">
+          <p>广东省人民医院与华为达成合作，采用SDN（软件定义网络）技术与Wi-Fi 6+融合方案，打造多院区高效网络，支撑智慧医疗新形态。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>多院区移动办公、互联网医院等新形态快速发展</div>
+            <div class="case-field"><strong>实施路径</strong>SDN+Wi-Fi 6+融合方案，统一管控多院区网络</div>
+            <div class="case-field"><strong>核心价值</strong>网络智能化管理，满足灵活、移动、安全的诊疗需求</div>
+            <div class="case-field"><strong>可复用经验</strong>多院区医院可参考其SDN统一管控方案</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">SDN统一管控</span>
+            <span class="kpi">Wi-Fi 6+覆盖</span>
+            <span class="kpi">多院区一张网</span>
+            <span class="kpi">支撑互联网医院</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://www.sohu.com/a/982994520_122066678" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+      <!-- 案例4：常德二院 -->
+      <div class="card case-block">
+        <div class="card-title">
+          <a href="https://life.china.com/2026-04/22/content_568097.html" target="_blank">
+            【标杆案例】常德市第二人民医院：全栈国产化智慧医院入围工信部典型案例，30+系统真替真用
+          </a>
+        </div>
+        <div class="card-meta">
+          <span class="tag green">国家级标杆</span>
+          <span>中华网/HIT专家网</span>
+          <span>2026-04-22</span>
+          <span class="tag orange">🆕 本周最新</span>
+        </div>
+        <div class="card-summary">
+          <p>4月17日工信部公示"2025年先进计算赋能新质生产力典型应用案例"，常德二院全栈国产化智慧医院项目成功入围。</p>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>2023年启动，湖南省首家全栈全场景国产化医院</div>
+            <div class="case-field"><strong>实施路径</strong>遵循"两芯一生态"技术路线，兼容C86+ARM双架构</div>
+            <div class="case-field"><strong>核心举措</strong>国产服务器+OS+DB，HIS/EMR/PACS/LIS等30+核心系统全栈替代</div>
+            <div class="case-field"><strong>可复用经验</strong>"应替尽替、真替真用"，30余万条患者数据平稳迁移</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">30+核心系统全栈国产化</span>
+            <span class="kpi">门诊排队时间缩短20%</span>
+            <span class="kpi">30万+患者数据平稳迁移</span>
+            <span class="kpi">工信部典型案例</span>
+          </div>
+        </div>
+        <div class="link-row">
+          <a href="https://life.china.com/2026-04/22/content_568097.html" target="_blank">→ 原文链接</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 脚注 -->
+  <div class="footer">
+    <p>📌 生成时间：2026-04-26 08:00 | 内容覆盖：近7天（4月19日-26日）</p>
+    <p>🏢 本简报由佛山复星禅诚医院数字科技部自动生成 | <strong>仅供内部参考</strong></p>
+    <p style="margin-top:4px;color:#bbb;">如需转发或引用，请核实原文信源 · 内部文件，请勿对外传播</p>
+  </div>
+
+</div>
+</body>
+</html>
