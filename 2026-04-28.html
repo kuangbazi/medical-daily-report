@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医院信息化与AI每日简报 2026-04-28</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: #f0f2f5;
+      color: #222;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+    /* 头部 */
+    .header {
+      background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 60%, #1976D2 100%);
+      border-radius: 10px;
+      padding: 22px 24px 18px;
+      margin-bottom: 18px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: "🏥";
+      position: absolute;
+      right: 24px; top: 18px;
+      font-size: 44px;
+      opacity: 0.15;
+    }
+    .header .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .header .meta {
+      font-size: 12px;
+      opacity: 0.82;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .header .meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* 板块 */
+    .section { margin-bottom: 18px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 8px 8px 0 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .section-header.dynamics { background: #1565C0; }
+    .section-header.case { background: #2e7d32; }
+    .section-header .icon { font-size: 18px; }
+    .section-body {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    /* 卡片 */
+    .card {
+      padding: 16px 18px;
+      border-bottom: 1px solid #f0f0f0;
+      position: relative;
+    }
+    .card:last-child { border-bottom: none; }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .card-title a {
+      color: #1565C0;
+      text-decoration: none;
+    }
+    .card-title a:hover { text-decoration: underline; }
+    .card-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .card-meta .tag {
+      background: #e3f2fd;
+      color: #1565C0;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .card-meta .tag.green { background: #e8f5e9; color: #2e7d32; }
+    .card-meta .tag.orange { background: #fff3e0; color: #e65100; }
+    .card-meta .tag.red { background: #ffebee; color: #c62828; }
+    .card-summary { font-size: 13px; color: #444; line-height: 1.75; }
+    .card-summary p { margin-bottom: 4px; }
+    .card-summary ul { margin: 4px 0 4px 18px; }
+    .card-summary li { margin-bottom: 2px; }
+    .highlight { background: #fff9c4; padding: 0 2px; border-radius: 2px; }
+    .link-row {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .link-row a {
+      color: #1565C0;
+      text-decoration: none;
+      border-bottom: 1px dashed #90caf9;
+    }
+    .link-row a:hover { border-bottom-style: solid; }
+
+    /* 标杆案例专属 */
+    .case-block { background: #f9fbe7; border-left: 3px solid #7cb342; }
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .case-field { padding: 3px 0; font-size: 12.5px; }
+    .case-field strong { color: #333; min-width: 56px; display: inline-block; }
+    .kpi-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 7px;
+    }
+    .kpi {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 新标签 */
+    .tag-new {
+      display: inline-block;
+      background: #ff5252;
+      color: #fff;
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* 脚注 */
+    .footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 11px;
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer strong { color: #1565C0; }
+
+    @media (max-width: 500px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .header .title { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- 头部 -->
+    <div class="header">
+      <div class="title">医院信息化与AI每日简报</div>
+      <div class="meta">
+        <span>📅 2026-04-28 星期一</span>
+        <span>📊 本期 7 条动态 / 2 条标杆案例</span>
+      </div>
+    </div>
+
+    <!-- 板块一：行业动态 -->
+    <div class="section">
+      <div class="section-header dynamics">
+        <span class="icon">📰</span> 行业动态
+      </div>
+      <div class="section-body">
+
+        <!-- 动态1 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://finance.eastmoney.com/a/202604273720745784.html" target="_blank">
+              200家AI企业"会师"深圳：广东省人工智能应用对接大会举办，加速医疗等场景全域落地<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag orange">区域协同</span>
+            <span>📍 信源：腾讯新闻/东方财富</span>
+            <span>🕐 2026-04-27</span>
+          </div>
+          <div class="card-summary">
+            4月27日，由广东省发展改革委、深圳市人民政府主办的广东省人工智能应用对接大会在深圳拉开帷幕，以"智联千行，赋能百业"为主题。200多家AI企业分享案例、展示成果，医疗健康是重点对接领域之一。大会同期成立"电算协同与算网互联技术研究实验室"，为AI全域应用提供算力基础设施支撑。
+          </div>
+          <div class="link-row">🔗 <a href="https://news.qq.com/rain/a/20260427A0274L00" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态2 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://www.sohu.com/a/1012400174_121124549" target="_blank">
+              OECD发布《扩大健康领域的人工智能应用》重磅报告：为38个成员国制定医疗AI治理系统性指南<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag red">国际视野</span>
+            <span>📍 信源：搜狐/观察者网</span>
+            <span>🕐 2026-04-26</span>
+          </div>
+          <div class="card-summary">
+            2026年4月，经济合作与发展组织（OECD）联合全球数字健康伙伴关系（GDHP）、健康AI联盟（CHAI）等机构，正式发布《扩大健康领域的人工智能应用》报告。报告揭示在所有OECD国家，AI已100%渗透进医疗行政管理领域，但临床应用仍面临数据治理、伦理审查和跨 jurisdiction 互操作性等核心挑战，为覆盖38个成员国的医疗AI规模化落地制定了系统性治理框架。
+          </div>
+          <div class="link-row">🔗 <a href="https://www.sohu.com/a/1012400174_121124549" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态3 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://news.sina.com.cn/zx/gj/2026-04-25/doc-inhvtryx0549758.shtml" target="_blank">
+              江苏"AI卷出医疗真功夫"：省政府专题部署"人工智能+医疗健康"，推动AI融入服务与治理全流程<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">区域动态</span>
+            <span>📍 信源：央广网/新浪新闻</span>
+            <span>🕐 2026-04-25</span>
+          </div>
+          <div class="card-summary">
+            央广网报道，2026年作为"十五五"开局之年，以人工智能赋能医疗健康正成为各地竞逐新质生产力的关键赛道。2026年2月，江苏省政府召开"人工智能+医疗健康"推进工作专题会议，明确提出将AI技术融入医疗健康服务与治理的全领域全过程。报道以常州为例展示了AI在基层诊疗辅助、医学影像和慢病管理中的实际落地成效。
+          </div>
+          <div class="link-row">🔗 <a href="https://news.sina.com.cn/zx/gj/2026-04-25/doc-inhvtryx0549758.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态4 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://health.ifeng.com/c/8saPTwBiQyU" target="_blank">
+              CHIMA 2026：光合组织发布"光合Health"品牌，构建医疗AI自主创新生态<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：凤凰网</span>
+            <span>🕐 2026-04-25</span>
+          </div>
+          <div class="card-summary">
+            4月25日，在第30届中国医院信息网络大会（CHIMA 2026）期间，光合组织医卫专委会旗下品牌"光合Health"正式发布。此举标志着专委会在构建医疗AI自主创新生态的基础上，进一步补齐行业价值链，推动国产化医疗信息技术从底层芯片到上层应用的全栈适配。
+          </div>
+          <div class="link-row">🔗 <a href="https://health.ifeng.com/c/8saPTwBiQyU" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态5 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://epaper.nfnews.com/nfdaily/html/202604/28/content_10169186.html" target="_blank">
+              南方日报：广东推动"人工智能+"全域落地，电算协同实验室深圳揭牌<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">区域协同</span>
+            <span>📍 信源：南方日报</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            南方日报4月28日头版报道，广东省人工智能应用对接大会4月27日在深圳举办，"电算协同与算网互联技术研究实验室"在会上正式揭牌成立。该实验室聚焦算力与电力协同优化，为AI全域应用提供底层算力支撑，标志广东AI基础设施建设从"建算力"迈向"用好算力"新阶段。
+          </div>
+          <div class="link-row">🔗 <a href="https://epaper.nfnews.com/nfdaily/html/202604/28/content_10169186.html" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态6 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://stock.10jqka.com.cn/20260427/c676302590.shtml" target="_blank">
+              卫宁健康CHIMA 2026发布智慧医疗新生态战略：以数据中台驱动医院智能化升级
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：同花顺/卫宁健康</span>
+            <span>🕐 2026-04-27</span>
+          </div>
+          <div class="card-summary">
+            卫宁健康在第30届CHIMA大会上展示智慧医疗新生态战略，围绕数据中台、AI辅助诊疗、医院运营管理等核心场景推出系列解决方案。重点关注医疗数据治理与AI大模型在临床决策支持中的融合应用，助力公立医院实现从信息化到智能化的转型跨越。
+          </div>
+          <div class="link-row">🔗 <a href="https://stock.10jqka.com.cn/20260427/c676302590.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态7 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://finance.sina.com.cn/wm/2026-04-26/doc-inhvvqry9695457.shtml" target="_blank">
+              神州数码CHIMA 2026分享"AI+医疗"场景实践：高质量数据集成为AI落地关键基础设施
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：新浪财经/神州数码</span>
+            <span>🕐 2026-04-26</span>
+          </div>
+          <div class="card-summary">
+            神州数码副总裁兼总工程师汤凯在CHIMA 2026上分享，指出高质量医疗数据集是AI在医疗领域规模化落地的关键基础设施。公司展示了在医学影像AI训练数据治理、临床知识图谱构建等方面的最新实践，强调数据质量直接决定AI模型的临床可用性和可靠性。
+          </div>
+          <div class="link-row">🔗 <a href="https://finance.sina.com.cn/wm/2026-04-26/doc-inhvvqry9695457.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 板块二：标杆案例 -->
+    <div class="section">
+      <div class="section-header case">
+        <span class="icon">🏥</span> 标杆案例
+      </div>
+      <div class="section-body">
+
+        <!-- 案例1 -->
+        <div class="card case-block">
+          <div class="card-title">
+            <a href="https://news.sina.com.cn/zx/gj/2026-04-25/doc-inhvtryx0549758.shtml" target="_blank">
+              【标杆案例】常州市第一人民医院：AI辅助诊疗覆盖放射科+眼科+心内科，门诊效率提升30%<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag green">市级标杆</span>
+            <span>📍 信源：央广网</span>
+            <span>🕐 2026-04-25</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-field"><strong>医院：</strong>常州市第一人民医院</div>
+            <div class="case-field"><strong>地区：</strong>江苏省常州市</div>
+            <div class="case-field"><strong>场景：</strong>AI辅助诊断+智能影像+慢病管理</div>
+            <div class="case-field"><strong>级别：</strong>三甲综合性医院</div>
+          </div>
+          <div class="card-summary" style="margin-top: 8px;">
+            作为江苏省"AI+医疗健康"推进工作的代表性医院，常州市第一人民医院率先实现AI辅助诊断在放射科、眼科、心内科三大科室的临床落地。通过AI影像辅助诊断系统，CT判读效率显著提升；门诊智能分诊与预问诊系统使患者平均等候时间缩短，门诊整体运转效率提升约30%。该案例为同级别三甲医院的AI临床落地提供了可复制的路径。
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">门诊效率+30%</span>
+            <span class="kpi">3大科室覆盖</span>
+            <span class="kpi">临床级AI应用</span>
+          </div>
+        </div>
+
+        <!-- 案例2 -->
+        <div class="card case-block">
+          <div class="card-title">
+            <a href="https://www.guancha.cn/GongSi/2026_04_24_814787.shtml" target="_blank">
+              【标杆案例】以岭药业入选"2026中国企业AI+场景创新典范案例"：中医药智能化全链条AI应用
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag green">行业标杆</span>
+            <span>📍 信源：观察者网</span>
+            <span>🕐 2026-04-24</span>
+          </div>
+          <div class="case-grid">
+            <div class="case-field"><strong>机构：</strong>以岭药业</div>
+            <div class="case-field"><strong>领域：</strong>中医药+AI</div>
+            <div class="case-field"><strong>场景：</strong>中药研发+质量控制+临床辅助</div>
+            <div class="case-field"><strong>级别：</strong>国家级案例</div>
+          </div>
+          <div class="card-summary" style="margin-top: 8px;">
+            以岭药业入选中国软件行业协会评选的"2026中国企业AI+场景创新典范案例"，覆盖智能制造、智慧医疗等12大领域。在中医药智能化方面，以岭药业构建了从药材AI质检、中药配方智能优化到临床疗效AI辅助评估的全链条应用体系，为传统中医药的数字化转型提供了创新范式。
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">国家级案例</span>
+            <span class="kpi">中医药AI全链条</span>
+            <span class="kpi">12大领域覆盖</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 脚注 -->
+    <div class="footer">
+      <strong>佛山复星禅诚医院数字科技部</strong> | 仅供内部参考<br>
+      📅 数据截止：2026-04-28 07:57 北京时间
+    </div>
+
+  </div>
+</body>
+</html>
