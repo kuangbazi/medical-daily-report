@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医院信息化与AI每日简报 2026-04-29</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: #f0f2f5;
+      color: #222;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+    /* 头部 */
+    .header {
+      background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 60%, #1976D2 100%);
+      border-radius: 10px;
+      padding: 22px 24px 18px;
+      margin-bottom: 18px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: "🏥";
+      position: absolute;
+      right: 24px; top: 18px;
+      font-size: 44px;
+      opacity: 0.15;
+    }
+    .header .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .header .meta {
+      font-size: 12px;
+      opacity: 0.82;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .header .meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* 板块 */
+    .section { margin-bottom: 18px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 8px 8px 0 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .section-header.dynamics { background: #1565C0; }
+    .section-header.case { background: #2e7d32; }
+    .section-header .icon { font-size: 18px; }
+    .section-body {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    /* 卡片 */
+    .card {
+      padding: 16px 18px;
+      border-bottom: 1px solid #f0f0f0;
+      position: relative;
+    }
+    .card:last-child { border-bottom: none; }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .card-title a {
+      color: #1565C0;
+      text-decoration: none;
+    }
+    .card-title a:hover { text-decoration: underline; }
+    .card-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .card-meta .tag {
+      background: #e3f2fd;
+      color: #1565C0;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .card-meta .tag.green { background: #e8f5e9; color: #2e7d32; }
+    .card-meta .tag.orange { background: #fff3e0; color: #e65100; }
+    .card-meta .tag.red { background: #ffebee; color: #c62828; }
+    .card-summary { font-size: 13px; color: #444; line-height: 1.75; }
+    .card-summary p { margin-bottom: 4px; }
+    .card-summary ul { margin: 4px 0 4px 18px; }
+    .card-summary li { margin-bottom: 2px; }
+    .highlight { background: #fff9c4; padding: 0 2px; border-radius: 2px; }
+    .link-row {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .link-row a {
+      color: #1565C0;
+      text-decoration: none;
+      border-bottom: 1px dashed #90caf9;
+    }
+    .link-row a:hover { border-bottom-style: solid; }
+
+    /* 标杆案例专属 */
+    .case-block { background: #f9fbe7; border-left: 3px solid #7cb342; }
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .case-field { padding: 3px 0; font-size: 12.5px; }
+    .case-field strong { color: #333; min-width: 56px; display: inline-block; }
+    .kpi-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 7px;
+    }
+    .kpi {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 新标签 */
+    .tag-new {
+      display: inline-block;
+      background: #ff5252;
+      color: #fff;
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* 脚注 */
+    .footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 11px;
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer strong { color: #1565C0; }
+
+    @media (max-width: 500px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .header .title { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- 头部 -->
+    <div class="header">
+      <div class="title">医院信息化与AI每日简报</div>
+      <div class="meta">
+        <span>📅 2026-04-29 星期三</span>
+        <span>📊 本期 7 条动态 / 2 条标杆案例</span>
+      </div>
+    </div>
+
+    <!-- 板块一：行业动态 -->
+    <div class="section">
+      <div class="section-header dynamics">
+        <span class="icon">📰</span> 行业动态
+      </div>
+      <div class="section-body">
+
+        <!-- 动态1 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://www.sohu.com/a/1015807669_389597" target="_blank">
+              艾力彼CHIMA发布中国首个医院AI应用调研报告：系统披露医院AI真实图景<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag orange">CHIMA速递</span>
+            <span>📍 信源：搜狐/艾力彼</span>
+            <span>🕐 2026-04-24</span>
+          </div>
+          <div class="card-summary">
+            4月24-26日，在第30届中国医院信息网络大会（CHIMA 2026）"大模型与医学人工智能落地实践"分会场上，艾力彼医院管理研究中心主任庄一强博士发布《中国首个医院AI应用现状及发展前景调研报告》，系统披露中国医院人工智能应用的真实图景，为行业发展指明方向。
+          </div>
+          <div class="link-row">🔗 <a href="https://www.sohu.com/a/1015807669_389597" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态2 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://finance.sina.com.cn/roll/2026-04-28/doc-inhwaicu8452835.shtml" target="_blank">
+              AI赋能医疗健康产业：2026年是重要转折点，AI重塑医疗工作者角色<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag red">行业观察</span>
+            <span>📍 信源：中国新闻网/新浪财经</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            中国医药创新促进会首席专家宋瑞霖在第四届中欧国际工商学院MBA年度医疗健康产业论坛上表示，2026年是中国医药创新业态的重要转折点。生物医药已与集成电路、低空经济等并列定位为"新兴支柱产业"，AI技术正在重塑医疗工作者角色，从"技术模型"向"场景落地"转变成为关键。
+          </div>
+          <div class="link-row">🔗 <a href="https://finance.sina.com.cn/roll/2026-04-28/doc-inhwaicu8452835.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态3 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://stock.10jqka.com.cn/20260428/c676327105.shtml" target="_blank">
+              万达信息CHIMA 2026展示AI赋能智慧医院新成果：全面覆盖智慧医疗、智慧服务、智慧管理
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：同花顺财经</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            4月24日至26日，在第30届中国医院信息网络大会（CHIMA 2026）上，万达信息股份有限公司系统展示了其AI技术全面赋能医院智慧医疗、智慧服务、智慧管理的最新成果，推动医院智能化升级。
+          </div>
+          <div class="link-row">🔗 <a href="https://stock.10jqka.com.cn/20260428/c676327105.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态4 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://finance.sina.com.cn/wm/2026-04-26/doc-inhvvqry9695457.shtml" target="_blank">
+              神州数码CHIMA 2026分享"AI+医疗"场景实践：聚焦高质量医疗数据治理
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：新浪财经</span>
+            <span>🕐 2026-04-26</span>
+          </div>
+          <div class="card-summary">
+            4月24日至26日，CHIMA 2026在珠海举行。神州数码汤凯出席大会，分享"AI+医疗"场景实践与高质量医疗数据治理经验，聚焦医疗信息化领域的年度学术盛会。
+          </div>
+          <div class="link-row">🔗 <a href="https://finance.sina.com.cn/wm/2026-04-26/doc-inhvvqry9695457.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态5 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://finance.sina.com.cn/wm/2026-04-28/doc-inhwaiea7254072.shtml" target="_blank">
+              讯飞医疗CHIMA 2026展示AI创新实践：共探医疗数字化转型新路径
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：新浪财经</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            4月24-26日，第30届中国医院信息网络大会（CHIMA 2026）在珠海国际会展中心举行。讯飞医疗携AI创新实践亮相大会，共探医疗数字化转型新路径，汇聚国内外医疗信息化领域专家学者、医疗机构管理者、行业企业代表。
+          </div>
+          <div class="link-row">🔗 <a href="https://finance.sina.com.cn/wm/2026-04-28/doc-inhwaiea7254072.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态6 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://www.sohu.com/a/1015714579_324957" target="_blank">
+              东方通CHIMA 2026以中间件筑基医院数字化未来：支撑医疗IT架构升级
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：搜狐</span>
+            <span>🕐 2026-04-26</span>
+          </div>
+          <div class="card-summary">
+            4月24日-26日，CHIMA 2026在珠海圆满举办。东方通受邀出席CIO班专场论坛，发表《新一代医院IT架构中间件的基础性价值与实践》主题演讲，分享公司在支撑医疗IT架构升级与自主创新道路上的深刻洞察与实践成果。
+          </div>
+          <div class="link-row">🔗 <a href="https://www.sohu.com/a/1015714579_324957" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态7 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://www.sohu.com/a/1015325946_290304" target="_blank">
+              天融信CHIMA 2026助力医疗行业AI快速、安全落地：大模型应用安全成焦点
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：搜狐</span>
+            <span>🕐 2026-04-26</span>
+          </div>
+          <div class="card-summary">
+            4月24日-26日，第30届中国医院信息网络大会在珠海成功举办。天融信科技集团携"AI+"创新实践、大模型应用安全等最新产品与解决方案精彩亮相，让智慧医疗更安全、更普惠。
+          </div>
+          <div class="link-row">🔗 <a href="https://www.sohu.com/a/1015325946_290304" target="_blank">查看报道 →</a></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 板块二：标杆案例 -->
+    <div class="section">
+      <div class="section-header case">
+        <span class="icon">🏥</span> 标杆案例
+      </div>
+      <div class="section-body">
+
+        <!-- 案例1 -->
+        <div class="card case-block">
+          <div class="card-title">
+            <a href="https://www3.xinhuanet.com/tech/20260415/ddfdbcb12bc94eaf968dd314424f3582/c.html" target="_blank">
+              【省级标杆】贵州省人民医院AI骨科术前规划：髋关节置换手术规划效率大幅提升
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag green">标杆案例</span>
+            <span>📍 信源：新华网</span>
+            <span>🕐 2026-04-15</span>
+          </div>
+          <div class="card-summary">
+            贵州省人民医院骨科医生通过AI软件进行髋关节置换手术的术前规划，AI技术赋能医疗健康产业，实现从"技术模型"到"场景落地"的转变。
+          </div>
+          <div class="case-grid">
+            <div class="case-field"><strong>医院等级：</strong>三级甲等</div>
+            <div class="case-field"><strong>应用场景：</strong>骨科术前规划</div>
+            <div class="case-field"><strong>核心技术：</strong>AI辅助规划</div>
+            <div class="case-field"><strong>落地时间：</strong>2026年</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">髋关节置换术前规划</span>
+            <span class="kpi">AI辅助诊断</span>
+            <span class="kpi">手术精准度提升</span>
+          </div>
+          <div class="link-row">🔗 <a href="https://www3.xinhuanet.com/tech/20260415/ddfdbcb12bc94eaf968dd314424f3582/c.html" target="_blank">查看案例 →</a></div>
+        </div>
+
+        <!-- 案例2 -->
+        <div class="card case-block">
+          <div class="card-title">
+            <a href="https://m.life.china.com/2026-04/27/content_570197.html" target="_blank">
+              【企业标杆】皓康医疗发布"皓康AI原生医院"：消化内镜AI发展研讨会圆满收官
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag green">标杆案例</span>
+            <span>📍 信源：中华网</span>
+            <span>🕐 2026-04-27</span>
+          </div>
+          <div class="card-summary">
+            2026年4月25日，由皓康医疗主办的"2026消化内镜AI发展研讨会暨'皓康AI原生医院'发布会"在成都圆满举行。会议以"AI赋能消化内镜发展"为主题，汇聚国内消化内镜领域专家学者，探讨AI在消化内镜领域的创新应用。
+          </div>
+          <div class="case-grid">
+            <div class="case-field"><strong>主办单位：</strong>皓康医疗</div>
+            <div class="case-field"><strong>应用场景：</strong>消化内镜AI</div>
+            <div class="case-field"><strong>核心技术：</strong>AI原生医院</div>
+            <div class="case-field"><strong>落地时间：</strong>2026年4月</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">消化内镜AI辅助</span>
+            <span class="kpi">AI原生医院</span>
+            <span class="kpi">内镜诊断智能化</span>
+          </div>
+          <div class="link-row">🔗 <a href="https://m.life.china.com/2026-04/27/content_570197.html" target="_blank">查看案例 →</a></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 脚注 -->
+    <div class="footer">
+      <p>📌 <strong>佛山复星禅诚医院·数字科技部</strong> | 仅供内部参考</p>
+      <p style="margin-top: 6px;">内容覆盖近7天（2026年4月23日-29日） | 每日08:00自动推送</p>
+    </div>
+
+  </div>
+</body>
+</html>
