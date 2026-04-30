@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医院信息化与AI每日简报 2026-04-30</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+      background: #f0f2f5;
+      color: #222;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 16px 12px 40px;
+    }
+    /* 头部 */
+    .header {
+      background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 60%, #1976D2 100%);
+      border-radius: 10px;
+      padding: 22px 24px 18px;
+      margin-bottom: 18px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: "🏥";
+      position: absolute;
+      right: 24px; top: 18px;
+      font-size: 44px;
+      opacity: 0.15;
+    }
+    .header .title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .header .meta {
+      font-size: 12px;
+      opacity: 0.82;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .header .meta span { display: flex; align-items: center; gap: 4px; }
+
+    /* 板块 */
+    .section { margin-bottom: 18px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 8px 8px 0 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .section-header.dynamics { background: #1565C0; }
+    .section-header.case { background: #2e7d32; }
+    .section-header .icon { font-size: 18px; }
+    .section-body {
+      background: #fff;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+
+    /* 卡片 */
+    .card {
+      padding: 16px 18px;
+      border-bottom: 1px solid #f0f0f0;
+      position: relative;
+    }
+    .card:last-child { border-bottom: none; }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .card-title a {
+      color: #1565C0;
+      text-decoration: none;
+    }
+    .card-title a:hover { text-decoration: underline; }
+    .card-meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .card-meta .tag {
+      background: #e3f2fd;
+      color: #1565C0;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .card-meta .tag.green { background: #e8f5e9; color: #2e7d32; }
+    .card-meta .tag.orange { background: #fff3e0; color: #e65100; }
+    .card-meta .tag.red { background: #ffebee; color: #c62828; }
+    .card-summary { font-size: 13px; color: #444; line-height: 1.75; }
+    .card-summary p { margin-bottom: 4px; }
+    .card-summary ul { margin: 4px 0 4px 18px; }
+    .card-summary li { margin-bottom: 2px; }
+    .highlight { background: #fff9c4; padding: 0 2px; border-radius: 2px; }
+    .link-row {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .link-row a {
+      color: #1565C0;
+      text-decoration: none;
+      border-bottom: 1px dashed #90caf9;
+    }
+    .link-row a:hover { border-bottom-style: solid; }
+
+    /* 标杆案例专属 */
+    .case-block { background: #f9fbe7; border-left: 3px solid #7cb342; }
+    .case-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .case-field { padding: 3px 0; font-size: 12.5px; }
+    .case-field strong { color: #333; min-width: 56px; display: inline-block; }
+    .kpi-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 7px;
+    }
+    .kpi {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-radius: 4px;
+      padding: 2px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 新标签 */
+    .tag-new {
+      display: inline-block;
+      background: #ff5252;
+      color: #fff;
+      font-size: 11px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* 脚注 */
+    .footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 11px;
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer strong { color: #1565C0; }
+
+    @media (max-width: 500px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .header .title { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- 头部 -->
+    <div class="header">
+      <div class="title">医院信息化与AI每日简报</div>
+      <div class="meta">
+        <span>📅 2026-04-30 星期四</span>
+        <span>📊 本期 7 条动态 / 3 条标杆案例</span>
+      </div>
+    </div>
+
+    <!-- 板块一：行业动态 -->
+    <div class="section">
+      <div class="section-header dynamics">
+        <span class="icon">📰</span> 行业动态
+      </div>
+      <div class="section-body">
+
+        <!-- 动态1 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://finance.sina.com.cn/wm/2026-04-29/doc-inhwesks7872089.shtml" target="_blank">
+              西藏阜康医院携手华为打造高原智慧医疗标杆：破解雪域高原就医难痛点<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag green">区域标杆</span>
+            <span>📍 信源：新浪财经</span>
+            <span>🕐 2026-04-29</span>
+          </div>
+          <div class="card-summary">
+            在国家推进"大病不出藏"战略背景下，西藏阜康医院与华为合作打造高原智慧医疗标杆项目。西藏作为高海拔、地广人稀的特殊区域，通过数字化、智能化手段破解就医难、资源散、效率低等长期痛点，构建可及、高效、精准的现代医疗服务体系。项目聚焦远程会诊、智慧病房、AI辅助诊断等核心场景，为边疆地区医疗信息化建设提供可复制经验。
+          </div>
+          <div class="link-row">🔗 <a href="https://finance.sina.com.cn/wm/2026-04-29/doc-inhwesks7872089.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态2 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="http://jjckb.xinhuanet.com/20260425/a00f6d4ced094a879181a55be219ef04/c.html" target="_blank">
+              蚂蚁健康开放"智慧医疗AI一体化方案"：AI就医助理+AI医生助手双核驱动<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag orange">CHIMA发布</span>
+            <span>📍 信源：经济参考报</span>
+            <span>🕐 2026-04-25</span>
+          </div>
+          <div class="card-summary">
+            4月25日，在CHIMA 2026上，蚂蚁健康面向全国医疗机构推出"智慧医疗AI一体化方案"。该方案整合面向患者端的"AI就医助理"与面向医生端的"AI医生助手"两大核心产品，集合医院智能体构建、本地大模型部署等能力。AI就医助理可实现患者就医全程"云陪诊"，导诊台效率提升50%，助力医院智能化升级。
+          </div>
+          <div class="link-row">🔗 <a href="http://jjckb.xinhuanet.com/20260425/a00f6d4ced094a879181a55be219ef04/c.html" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态3 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="http://field.10jqka.com.cn/20260428/c676341645.shtml" target="_blank">
+              OFweek 2026智慧医院大会在深圳收官：同济医院、顺德健共体标杆实践分享<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业大会</span>
+            <span>📍 信源：同花顺财经</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            4月23日，OFweek 2026智慧医院创新发展大会暨医疗机器人峰会在深圳举办。华中科技大学同济医学院附属同济医院张晓祥主任分享三大标杆实践：武汉同济医院"一院五区"全云化部署、湖北秭归医共体云平台、顺德健共体信息化建设，为大型医院集团化运营、县域分级诊疗落地提供权威标杆参考。顺德健共体相关成果获央视《焦点访谈》专题报道。
+          </div>
+          <div class="link-row">🔗 <a href="http://field.10jqka.com.cn/20260428/c676341645.shtml" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态4 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="http://finance.eastmoney.com/a/202604283722154857.html" target="_blank">
+              一脉阳光战略升级：定义影像AI"DeepSeek时刻"，发布颅脑CT超级智能体<span class="tag-new">🆕 本周最新</span>
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag orange">企业动态</span>
+            <span>📍 信源：东方财富网</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            4月28日，中国医学影像服务第一股一脉阳光在上海举办"战略升级暨数智影像生态发布会"，宣布向"全球最大的数智影像生态领航者"进发。公司发布已商业化落地的颅脑CT超级智能体，联合腾讯发布数字医生（Doctor-buddy），确立"场景+数据+AI"闭环引擎，推动医学影像AI从"炼丹"走向"造物"的新阶段。
+          </div>
+          <div class="link-row">🔗 <a href="http://finance.eastmoney.com/a/202604283722154857.html" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态5 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://www.cn-healthcare.com/articlewm/20260425/content-1671114.html" target="_blank">
+              健康界医疗快讯：近期医疗信息化资讯一览，三明医改经验推广成重点
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">行业资讯</span>
+            <span>📍 信源：健康界</span>
+            <span>🕐 2026-04-25</span>
+          </div>
+          <div class="card-summary">
+            健康界发布近期医疗信息化资讯汇总，重点包括：国家卫健委在上海召开新闻发布会介绍因地制宜推广三明医改经验、各地医改信息化建设进展、智慧医院建设实践等内容。三明医改经验推广要求医院信息系统与医保支付方式改革深度对接，对医院信息化建设提出新要求。
+          </div>
+          <div class="link-row">🔗 <a href="https://www.cn-healthcare.com/articlewm/20260425/content-1671114.html" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态6 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://www.sohu.com/a/1015178184_120850809" target="_blank">
+              新一代智慧医院中枢架构：数据+技术+业务+AI四大中台驱动高质量发展
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">技术前沿</span>
+            <span>📍 信源：搜狐</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            在OFweek智慧医院大会上，同济医院张晓祥主任提出以数据、技术、业务、AI四大中台为核心的新一代智慧医院中枢架构，覆盖服务延伸、降本增效、医疗质量闭环、区域资源共享等全场景应用。他指出，生成式AI将驱动智慧医院从"数据基座"向"智能引擎"升级，为公立医院高质量发展提供坚实数智支撑。
+          </div>
+          <div class="link-row">🔗 <a href="https://www.sohu.com/a/1015178184_120850809" target="_blank">查看报道 →</a></div>
+        </div>
+
+        <!-- 动态7 -->
+        <div class="card">
+          <div class="card-title">
+            <a href="https://www.sohu.com/a/1012617784_456060" target="_blank">
+              广东医院建设精细化管理与智慧化升级：从规模优先到质量效益并重
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag">区域动态</span>
+            <span>📍 信源：搜狐</span>
+            <span>🕐 2026-04-21</span>
+          </div>
+          <div class="card-summary">
+            广东省作为医院建设前沿阵地，已在智慧医院、绿色低碳、精细化后勤、旧区改造等多个领域先行探索。报道聚焦医院后勤管理精细化、智慧化升级路径，包括智慧物流、能源管理、设备全生命周期管理等核心场景，为公立医院高质量发展提供实践参考。
+          </div>
+          <div class="link-row">🔗 <a href="https://www.sohu.com/a/1012617784_456060" target="_blank">查看报道 →</a></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 板块二：标杆案例 -->
+    <div class="section">
+      <div class="section-header case">
+        <span class="icon">🏥</span> 标杆案例
+      </div>
+      <div class="section-body">
+
+        <!-- 案例1 -->
+        <div class="card case-block">
+          <div class="card-title">
+            <a href="https://finance.sina.com.cn/wm/2026-04-29/doc-inhwesks7872089.shtml" target="_blank">
+              【高原标杆】西藏阜康医院携手华为：破解边疆地区医疗资源短缺困局
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag green">标杆案例</span>
+            <span>📍 信源：新浪财经</span>
+            <span>🕐 2026-04-29</span>
+          </div>
+          <div class="card-summary">
+            西藏阜康医院与华为合作，在高海拔、地广人稀的特殊区域打造智慧医疗标杆，响应国家"大病不出藏"战略。
+          </div>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>西藏医疗资源短缺、就医难、资源散</div>
+            <div class="case-field"><strong>实施路径</strong>远程会诊+智慧病房+AI辅助诊断</div>
+            <div class="case-field"><strong>核心价值</strong>破解边疆地区医疗可及性难题</div>
+            <div class="case-field"><strong>可复用经验</strong>边疆地区以远程医疗为突破口</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">大病不出藏</span>
+            <span class="kpi">高原智慧医疗</span>
+            <span class="kpi">华为合作</span>
+          </div>
+          <div class="link-row">🔗 <a href="https://finance.sina.com.cn/wm/2026-04-29/doc-inhwesks7872089.shtml" target="_blank">查看案例 →</a></div>
+        </div>
+
+        <!-- 案例2 -->
+        <div class="card case-block">
+          <div class="card-title">
+            <a href="http://field.10jqka.com.cn/20260428/c676341645.shtml" target="_blank">
+              【佛山标杆】顺德健共体信息化建设获央视《焦点访谈》专题报道
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag green">佛山标杆</span>
+            <span>📍 信源：同花顺财经</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            顺德健共体作为OFweek智慧医院大会三大标杆实践之一，通过医共体云平台打造县乡村三级医疗协同样板，相关成果获央视《焦点访谈》专题报道。
+          </div>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>县域分级诊疗落地、基层医疗能力提升</div>
+            <div class="case-field"><strong>实施路径</strong>医共体云平台+三级医疗协同</div>
+            <div class="case-field"><strong>核心价值</strong>县域就诊率、患者满意度大幅提升</div>
+            <div class="case-field"><strong>可复用经验</strong>以医共体为载体推进分级诊疗</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">央视《焦点访谈》报道</span>
+            <span class="kpi">县乡村三级协同</span>
+            <span class="kpi">佛山地区标杆</span>
+          </div>
+          <div class="link-row">🔗 <a href="http://field.10jqka.com.cn/20260428/c676341645.shtml" target="_blank">查看案例 →</a></div>
+        </div>
+
+        <!-- 案例3 -->
+        <div class="card case-block">
+          <div class="card-title">
+            <a href="http://field.10jqka.com.cn/20260428/c676341645.shtml" target="_blank">
+              【省级标杆】武汉同济医院"一院五区"全云化部署：多院区同质化管理范本
+            </a>
+          </div>
+          <div class="card-meta">
+            <span class="tag green">省级标杆</span>
+            <span>📍 信源：同花顺财经</span>
+            <span>🕐 2026-04-28</span>
+          </div>
+          <div class="card-summary">
+            华中科技大学同济医学院附属同济医院通过"一院五区"全云化部署，实现多院区同质化管理，为大型医院集团化运营提供可复制经验。
+          </div>
+          <div class="case-grid">
+            <div class="case-field"><strong>建设背景</strong>多院区运营、同质化管理需求迫切</div>
+            <div class="case-field"><strong>实施路径</strong>全云化部署+统一数据平台</div>
+            <div class="case-field"><strong>核心价值</strong>多院区医疗质量同质化、管理一体化</div>
+            <div class="case-field"><strong>可复用经验</strong>大型医院集团以云平台为底座</div>
+          </div>
+          <div class="kpi-list">
+            <span class="kpi">一院五区</span>
+            <span class="kpi">全云化部署</span>
+            <span class="kpi">同质化管理</span>
+          </div>
+          <div class="link-row">🔗 <a href="http://field.10jqka.com.cn/20260428/c676341645.shtml" target="_blank">查看案例 →</a></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 脚注 -->
+    <div class="footer">
+      <p>📌 <strong>佛山复星禅诚医院·数字科技部</strong> | 仅供内部参考</p>
+      <p style="margin-top: 6px;">内容覆盖近7天（2026年4月24日-30日） | 每日08:00自动推送</p>
+    </div>
+
+  </div>
+</body>
+</html>
