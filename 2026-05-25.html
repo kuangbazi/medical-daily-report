@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医院信息化与AI每日简报 2026-05-25</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 50%, #1976D2 100%);
+            color: #fff;
+            padding: 30px 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 13px;
+        }
+        .header::after {
+            content: '🏥';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            opacity: 0.15;
+        }
+        .special-topic {
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .topic-header {
+            background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
+            color: #fff;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .topic-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .topic-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .topic-content {
+            padding: 24px;
+        }
+        .section {
+            margin-bottom: 28px;
+        }
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        .section h3 {
+            color: #1565C0;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 3px solid #1565C0;
+        }
+        .content-card {
+            background: #f8f9fa;
+            padding: 16px 18px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .content-card:last-child {
+            margin-bottom: 0;
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1976D2;
+            margin-bottom: 8px;
+        }
+        .card-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .card-title a:hover {
+            text-decoration: underline;
+        }
+        .card-meta {
+            font-size: 12px;
+            color: #757575;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 12px;
+        }
+        .card-summary {
+            font-size: 14px;
+            color: #424242;
+            line-height: 1.6;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+        .data-table th {
+            background: #1565C0;
+            color: #fff;
+            font-weight: 600;
+        }
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+        .highlight-list {
+            padding-left: 20px;
+        }
+        .highlight-list li {
+            margin-bottom: 8px;
+            color: #424242;
+        }
+        .highlight-list li:last-child {
+            margin-bottom: 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #757575;
+            font-size: 12px;
+        }
+        .empty-notice {
+            background: #fff3e0;
+            border: 1px solid #ffb74d;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #e65100;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>医院信息化与AI每日简报</h1>
+            <p>2026年5月25日 · 星期日 · 第145期</p>
+        </div>
+
+        <div class="special-topic">
+            <div class="topic-header">
+                <span class="topic-tag">【深度专题】</span>
+                <h2>医院AI平台建设：从南方医院HAIP到全国创新案例</h2>
+            </div>
+            <div class="topic-content">
+                <div class="section">
+                    <h3>背景与趋势</h3>
+                    <div class="content-card">
+                        <div class="card-summary">
+                            2026年，医疗AI从单点应用向平台化、系统化演进。4月，南方医科大学南方医院联合华为发布全球首个医院通用人工智能平台（HAIP），标志着医院AI建设进入"能力底座+智能中枢+场景应用"的三位一体新范式。同期，CHIMA发布的311篇创新应用案例，折射出全国医院在医学人工智能、大数据、互联网+等方向的积极探索。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>标杆案例：南方医院HAIP平台</h3>
+                    <div class="content-card">
+                        <div class="card-title">
+                            <a href="https://e.huawei.com/cn/news/2026/industries/healthcare/general-artificial-intelligence-platform-hospitals" target="_blank">
+                                全球首发！南方医院联合华为发布医院通用人工智能平台（HAIP）
+                            </a>
+                        </div>
+                        <div class="card-meta">
+                            <span>信源：华为医疗</span>
+                            <span>发布日期：2026-04-13</span>
+                        </div>
+                        <div class="card-summary">
+                            2026年4月10日，南方医科大学南方医院联合华为及多家医疗机构，在广州发布全球首个医院通用人工智能平台（HAIP），同步发布《医院通用人工智能平台技术白皮书》并揭牌医疗AI全场景智慧医院联合创新实验室。
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>核心指标</th>
+                                    <th>数据</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>算力利用率提升</td>
+                                    <td>30%以上</td>
+                                </tr>
+                                <tr>
+                                    <td>自主创新率</td>
+                                    <td>100%（AIDC算力集群）</td>
+                                </tr>
+                                <tr>
+                                    <td>检索响应速度</td>
+                                    <td>毫秒级</td>
+                                </tr>
+                                <tr>
+                                    <td>已落地应用</td>
+                                    <td>6大场景化应用</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul class="highlight-list" style="margin-top: 12px;">
+                            <li><strong>已落地应用</strong>：智肾（慢病管理）、南方智麻（麻醉管理）、病理AI辅助诊断、病案质控、电子病历AI助手、南医小智智能体中心</li>
+                            <li><strong>覆盖领域</strong>：临床诊疗、患者服务、科研创新、运营管理</li>
+                            <li><strong>架构特点</strong>：能力底座（AIDC算力集群）+ 智能中枢（AI开发平台）+ 工具引擎（场景化应用）</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>行业案例：CHIMA 2026创新应用入围名单</h3>
+                    <div class="content-card">
+                        <div class="card-title">
+                            <a href="https://www.chima.org.cn/Html/News/Articles/17798.html" target="_blank">
+                                2026年医院新兴技术创新应用入围案例名单
+                            </a>
+                        </div>
+                        <div class="card-meta">
+                            <span>信源：CHIMA</span>
+                            <span>发布日期：2026-04-09</span>
+                        </div>
+                        <div class="card-summary">
+                            2026年医院新兴技术创新应用典型案例征集共收到案例311篇，经评审入围63篇，分为医学人工智能、大数据、互联网+、医疗云、物联网、综合类六大类别。
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>类别</th>
+                                    <th>典型案例方向</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>医学人工智能</td>
+                                    <td>门特智能化管理、ICD智能编码、病理辅助诊断</td>
+                                </tr>
+                                <tr>
+                                    <td>大数据</td>
+                                    <td>专科评价管理平台、体检报告智能生成</td>
+                                </tr>
+                                <tr>
+                                    <td>互联网+</td>
+                                    <td>精准就医服务、候补挂号系统</td>
+                                </tr>
+                                <tr>
+                                    <td>医疗云</td>
+                                    <td>基层卫生信息平台、全栈信创</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul class="highlight-list" style="margin-top: 12px;">
+                            <li><strong>广东地区入围案例</strong>：中山大学肿瘤防治中心、中山大学附属第三医院、中山大学附属第一医院、深圳市坪山区妇幼保健院、广州市番禺区卫生健康局共6个项目入围</li>
+                            <li><strong>优秀组织奖</strong>：广东省医院协会医院信息化专业委员会</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>数据洞察：AI平台建设关键指标</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标类别</th>
+                                <th>标杆数据</th>
+                                <th>参考意义</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>算力利用率</td>
+                                <td>提升30%+</td>
+                                <td>平台化建设显著提升资源利用效率</td>
+                            </tr>
+                            <tr>
+                                <td>已落地应用数</td>
+                                <td>6大场景</td>
+                                <td>平台化后应用落地速度加快</td>
+                            </tr>
+                            <tr>
+                                <td>案例征集数量</td>
+                                <td>311篇→63篇入围</td>
+                                <td>全国医院AI创新活跃度高</td>
+                            </tr>
+                            <tr>
+                                <td>自主创新率</td>
+                                <td>100%</td>
+                                <td>信创替代已具备成熟条件</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h3>实施指南：三甲医院AI平台建设路径</h3>
+                    <div class="content-card">
+                        <div class="card-summary">
+                            <ul class="highlight-list">
+                                <li><strong>Step 1 数据治理</strong>：完成电子病历、影像、检验等核心数据标准化，建立数据质量管理体系</li>
+                                <li><strong>Step 2 平台部署</strong>：搭建AI算力底座（AIDC/云服务），部署AI开发平台，建立算力调度机制</li>
+                                <li><strong>Step 3 单场景试点</strong>：选择1-2个高频场景（如病案质控、影像辅助诊断）试点，积累数据和优化模型</li>
+                                <li><strong>Step 4 规模化推广</strong>：基于试点经验，逐步扩展到临床、科研、运营、服务四大领域</li>
+                                <li><strong>关键成功要素</strong>：院长级牵头、信息科+临床科室协同、数据质量达标、算力规划前置、场景选择优先级排序</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            📌 佛山复星禅诚医院数字科技部 | 仅供内部参考<br>
+            GitHub Pages: <a href="https://kuangbazi.github.io/medical-daily-report/" target="_blank" style="color: #1976D2;">kuangbazi.github.io/medical-daily-report</a>
+        </div>
+    </div>
+</body>
+</html>
