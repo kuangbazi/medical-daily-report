@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医院信息化与AI每日简报 2026-06-01</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 50%, #1976D2 100%);
+            color: #fff;
+            padding: 30px 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header h1 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 13px;
+        }
+        .header::after {
+            content: '🏥';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            opacity: 0.15;
+        }
+        .special-topic {
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .topic-header {
+            background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
+            color: #fff;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .topic-tag {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .topic-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .topic-content {
+            padding: 24px;
+        }
+        .section {
+            margin-bottom: 28px;
+        }
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        .section h3 {
+            color: #1565C0;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            border-left: 3px solid #1565C0;
+        }
+        .content-card {
+            background: #f8f9fa;
+            padding: 16px 18px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .content-card:last-child {
+            margin-bottom: 0;
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1976D2;
+            margin-bottom: 8px;
+        }
+        .card-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        .card-title a:hover {
+            text-decoration: underline;
+        }
+        .card-meta {
+            font-size: 12px;
+            color: #757575;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 12px;
+        }
+        .card-summary {
+            font-size: 14px;
+            color: #424242;
+            line-height: 1.6;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .data-table th,
+        .data-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
+        }
+        .data-table th {
+            background: #1565C0;
+            color: #fff;
+            font-weight: 600;
+        }
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+        .highlight-list {
+            padding-left: 20px;
+        }
+        .highlight-list li {
+            margin-bottom: 8px;
+            color: #424242;
+        }
+        .highlight-box {
+            background: #e3f2fd;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+        .highlight-box h4 {
+            font-size: 14px;
+            color: #1565C0;
+            margin-bottom: 8px;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #757575;
+            font-size: 12px;
+        }
+        .tag-new {
+            display: inline-block;
+            background: #ff5252;
+            color: #fff;
+            font-size: 11px;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .section-dynamics {
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .section-header {
+            padding: 16px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .section-header.dynamics {
+            background: linear-gradient(135deg, #1565C0 0%, #1976D2 100%);
+        }
+        .section-header.case {
+            background: linear-gradient(135deg, #2e7d32 0%, #43a047 100%);
+        }
+        .section-body {
+            padding: 0;
+        }
+        .card-item {
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .card-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>医院信息化与AI每日简报</h1>
+            <p>2026年6月1日 星期一 | 佛山复星禅诚医院数字科技部</p>
+        </div>
+
+        <div class="special-topic">
+            <div class="topic-header">
+                <span class="topic-tag">【深度专题】</span>
+                <h2>医疗AI治理元年：从《专家共识》到合规落地</h2>
+            </div>
+            <div class="topic-content">
+                <div class="section">
+                    <h3>📌 政策背景</h3>
+                    <div class="content-card">
+                        <div class="card-title">
+                            <a href="https://general.medsci.cn/guideline/show_article.do?id=c61401c00513097e" target="_blank">《医疗机构人工智能应用与治理专家共识（2026版）》发布</a>
+                        </div>
+                        <div class="card-meta">
+                            <span>📅 发布日期：2026-04-01</span>
+                            <span>📑 来源：中华医学会医学信息学分会</span>
+                        </div>
+                        <div class="card-summary">
+                            国内首部医疗机构AI应用治理指导文件，明确AI风险分级管理框架、数据隐私"不出院"红线、临床责任归属等核心治理逻辑。提出AI应用三级分类管理，为医疗机构落地AI应用提供合规路径。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📊 核心要点</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>治理维度</th>
+                                <th>核心要求</th>
+                                <th>落地要点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>风险分级</strong></td>
+                                <td>AI应用分三级管理</td>
+                                <td>低风险（辅助查阅）、中风险（辅助诊断）、高风险（自主决策）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>数据隐私</strong></td>
+                                <td>"数据不出院"红线</td>
+                                <td>医疗数据本地部署优先，云服务需通过安全评估</td>
+                            </tr>
+                            <tr>
+                                <td><strong>责任归属</strong></td>
+                                <td>临床决策责任在医生</td>
+                                <td>AI仅作辅助工具，最终诊疗决策权归临床医师</td>
+                            </tr>
+                            <tr>
+                                <td><strong>审核机制</strong></td>
+                                <td>AI应用准入审查</td>
+                                <td>医院伦理委员会+信息安全管理委员会双重审批</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h3>🏥 标杆案例</h3>
+                    <div class="content-card">
+                        <div class="card-title">
+                            <a href="https://news.qq.com/rain/a/20260525A0862800" target="_blank">德适AI AutoVision获NMPA三类医疗器械注册证</a>
+                        </div>
+                        <div class="card-meta">
+                            <span>📅 发布日期：2026-05-20</span>
+                            <span>📑 来源：德适生物</span>
+                        </div>
+                        <div class="card-summary">
+                            国内首款染色体核型辅助诊断软件获批三类证，获批适应症包括羊水样本产前诊断和外周血辅助生殖染色体核型分析。标志着AI辅助诊断在生殖医学领域的合规化落地。
+                        </div>
+                    </div>
+                    <div class="highlight-box">
+                        <h4>📋 落地路径</h4>
+                        <ul class="highlight-list">
+                            <li><strong>Step 1</strong>：建立AI应用准入评估机制，按风险等级分类管理</li>
+                            <li><strong>Step 2</strong>：完善数据安全基础设施，确保"数据不出院"</li>
+                            <li><strong>Step 3</strong>：明确临床责任边界，制定AI辅助诊疗操作规范</li>
+                            <li><strong>Step 4</strong>：建立AI效果评估与持续改进机制</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>📈 行业动态</h3>
+                    <div class="content-card">
+                        <div class="card-title">
+                            <a href="https://www.kingbase.com.cn/explore/tech-blog/%e5%8c%bb%e7%96%97%e7%94%b5%e5%ad%90%e7%97%85%e5%8e%86%e6%95%b0%e6%8d%ae%e5%ba%93%e5%9b%bd%e4%ba%a7%e5%8c%96%e7%99%bd%e7%9a%ae%e4%b9%a6%ef%bc%9a%e6%9e%b6%e6%9e%84%e6%bc%94%e8%bf%9b%e4%b8%8e%e5%90%88/" target="_blank">医疗电子病历数据库国产化白皮书发布</a>
+                        </div>
+                        <div class="card-meta">
+                            <span>📅 发布日期：2026-05-11</span>
+                            <span>📑 来源：人大金仓</span>
+                        </div>
+                        <div class="card-summary">
+                            从"信息化"迈向"智能化"深水区，电子病历系统数据安全性与连续性成为国家关键信息基础设施保护焦点。白皮书系统阐述了数据库国产化架构演进与合规实践路径。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            📌 佛山复星禅诚医院数字科技部 | 仅供内部参考<br>
+            <span style="color: #999;">本简报内容均来自白名单信源，严格执行时效窗口与去重机制</span>
+        </div>
+    </div>
+</body>
+</html>
