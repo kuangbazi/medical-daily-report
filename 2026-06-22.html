@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医院信息化与AI每日简报 2026-06-22</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 50%, #1976D2 100%);
+            color: #fff;
+            padding: 32px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after {
+            content: "🏥";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 80px;
+            opacity: 0.15;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .header .date {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .header .subtitle {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 6px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .section-header.dynamics { background: #1565C0; }
+        .section-header.case { background: #2e7d32; }
+        .section-body {
+            padding: 8px 0;
+        }
+        .card {
+            padding: 16px 18px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .card:last-child { border-bottom: none; }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .card-title a {
+            color: #1565C0;
+            text-decoration: none;
+        }
+        .card-title a:hover { text-decoration: underline; }
+        .card-meta {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+        .card-meta .source { color: #1565C0; }
+        .card-meta .date { margin-left: 12px; }
+        .card-summary {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.7;
+        }
+        .card-summary ul {
+            margin: 6px 0 6px 18px;
+            list-style: disc;
+        }
+        .card-summary li { margin-bottom: 4px; }
+        .tag-new {
+            display: inline-block;
+            background: #ff5252;
+            color: #fff;
+            font-size: 11px;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        .case-tag {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 11px;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        /* 深度专题样式 */
+        .special-topic {
+            padding: 16px 18px;
+        }
+        .topic-header {
+            background: linear-gradient(135deg, #1a237e, #283593);
+            color: #fff;
+            padding: 20px 24px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .topic-header .topic-tag {
+            display: inline-block;
+            background: #ff6f00;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .topic-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .topic-header .topic-meta {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 8px;
+        }
+        .topic-content .section {
+            margin-bottom: 24px;
+        }
+        .topic-content .section h3 {
+            font-size: 16px;
+            color: #1a237e;
+            border-left: 4px solid #1565C0;
+            padding-left: 12px;
+            margin-bottom: 14px;
+        }
+        .case-card {
+            background: #f8f9fa;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+        .case-card .case-hospital {
+            font-size: 15px;
+            font-weight: 600;
+            color: #2e7d32;
+            margin-bottom: 6px;
+        }
+        .case-card .case-data {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+        }
+        .case-card .case-data strong {
+            color: #e65100;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 13px;
+        }
+        .data-table th {
+            background: #1565C0;
+            color: #fff;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        .data-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .data-table tr:nth-child(even) { background: #f8f9fa; }
+        .insight-box {
+            background: #e3f2fd;
+            border-left: 4px solid #1565C0;
+            padding: 16px;
+            border-radius: 4px;
+            margin: 16px 0;
+        }
+        .insight-box h4 {
+            font-size: 14px;
+            color: #1565C0;
+            margin-bottom: 8px;
+        }
+        .insight-box p, .insight-box li {
+            font-size: 13px;
+            color: #555;
+        }
+        .footer {
+            text-align: center;
+            padding: 32px 24px;
+            color: #999;
+            font-size: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>医院信息化与AI每日简报</h1>
+            <div class="date">2026年06月22日（周一）</div>
+            <div class="subtitle">深度专题模式 · 中国医院院长年会特辑</div>
+        </div>
+
+        <!-- 深度专题 -->
+        <div class="special-topic">
+            <div class="topic-header">
+                <span class="topic-tag">【深度专题】</span>
+                <h2>2026智慧医院AI场景规模化落地<br>六家三甲医院实战案例深度解读</h2>
+                <div class="topic-meta">
+                    来源：第二十届中国医院院长年会 · 厦门 · 2026年6月6日
+                </div>
+            </div>
+
+            <div class="topic-content">
+
+                <div class="section">
+                    <h3>一、专题背景</h3>
+                    <div class="card-summary">
+                        <p>2026年6月6日，第二十届中国医院院长年会"科技赋能·AI聚力专科业务新效能"分论坛在厦门召开。国家医改导向要求扩诊疗覆盖、提重症能力，AI赋能学科建设已成为公立医院高质量发展的必答题。本次论坛汇集了来自全国多家三甲医院的智慧医院建设经验，呈现了从底层数智平台构建到场景价值实现的全景路径。以下为六大标杆医院的核心实践。</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>二、标杆案例深度解读</h3>
+
+                    <!-- 南京鼓楼医院 -->
+                    <div class="case-card">
+                        <div class="case-hospital">🏥 南京鼓楼医院</div>
+                        <div class="card-summary">
+                            <p><strong>建设成果：</strong>构建"湖仓一体"大数据平台和40余个高质量专病数据库，打造"3+1+N"架构的"博爱"大模型与应用生态。</p>
+                        </div>
+                        <div class="case-data">
+                            <strong>量化成效：</strong>已落地 <strong>52个智能场景</strong>，覆盖智慧医疗（胰腺穿刺病理AI、胆道镜癌识别AI）、智慧管理（门特医嘱辅助判断）、智慧服务（病历辅助生成）和智慧科研（药物虚拟筛选）四大领域，实现AI对医院运行的全方位赋能。
+                        </div>
+                    </div>
+
+                    <!-- 青岛大学附属医院 -->
+                    <div class="case-card">
+                        <div class="case-hospital">🏥 青岛大学附属医院</div>
+                        <div class="card-summary">
+                            <p><strong>建设成果：</strong>构建"湖仓一体化大数据平台"和全病种科研数据库，建设覆盖诊疗前中后全流程的智慧服务体系。</p>
+                        </div>
+                        <div class="case-data">
+                            <strong>量化成效：</strong>智能体 <strong>"青小爱"</strong> 上线运行，应用领域涵盖达芬奇机器人手术、脑机接口、AI辅助影像诊断；打造运营管控一体化平台和AI临床助手，实现信息技术与临床、管理、服务、科研深度融合。
+                        </div>
+                    </div>
+
+                    <!-- 潍坊市人民医院 -->
+                    <div class="case-card">
+                        <div class="case-hospital">🏥 潍坊市人民医院</div>
+                        <div class="card-summary">
+                            <p><strong>建设成果：</strong>开发全链式AI病案应用 <strong>"乐道i书"</strong>，覆盖诊前（预问诊、智能导诊、VTE智能评估）、诊中（法律风险评估、MDT智能质控）、诊后（非计划再次手术筛查、高额费用审核）全流程。</p>
+                        </div>
+                        <div class="case-data">
+                            <strong>量化成效：</strong>已落地包括"潍智"系列在内的 <strong>超过90个智能应用场景</strong>，显著提升诊疗规范性、病历内涵质量及管理效率。
+                        </div>
+                    </div>
+
+                    <!-- 深圳市龙岗中心医院 -->
+                    <div class="case-card">
+                        <div class="case-hospital">🏥 深圳市龙岗中心医院（深圳市第九人民医院）</div>
+                        <div class="card-summary">
+                            <p><strong>建设成果：</strong>在电子病历五级基础之上，重点布局AI基础设施，包括算力平台、7个基础大模型，并建设区域卫健AI共享平台。</p>
+                        </div>
+                        <div class="case-data">
+                            <strong>量化成效：</strong>已部署或研发 <strong>超过30个AI应用系统</strong>，覆盖临床（病历质控、AI辅助编码、APTS患者追踪）、服务（智能导诊、大模型陪诊智能体）、管理（安全智能体）和科研等多个场景。
+                        </div>
+                    </div>
+
+                    <!-- 嘉兴市第一医院 -->
+                    <div class="case-card">
+                        <div class="case-hospital">🏥 嘉兴大学附属医院（嘉兴市第一医院）</div>
+                        <div class="card-summary">
+                            <p><strong>建设成果：</strong>以"数智协同"为核心，构建基于数据中台和AI技术的基础架构，推进"惠民、惠医、惠管、惠研"四大工程。</p>
+                        </div>
+                        <div class="case-data">
+                            <strong>量化成效：</strong>AI生成病历 + 辅助诊疗决策提升诊疗效率；远程问诊创新服务模式；"院长驾驶舱"实现基于真实数据的精细化管理；可信数据空间赋能科研数据合规转化。
+                        </div>
+                    </div>
+
+                    <!-- 广东医科大学附属医院 -->
+                    <div class="case-card">
+                        <div class="case-hospital">🏥 广东医科大学附属医院</div>
+                        <div class="card-summary">
+                            <p><strong>建设成果：</strong>通过构建"双轨三级"组织结构、覆盖全流程的制度规范和基于"LLM+RAG+Ollama"本地化架构的数智管理平台，创建集大流程与微循环嵌套的管理体系。</p>
+                        </div>
+                        <div class="case-data">
+                            <strong>量化成效：</strong>行政执行效率显著提升，<strong>年度计划完成率提升26%</strong>；该模式已推广至多家医疗机构。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>三、数据洞察</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>医院</th>
+                                <th>AI场景数量</th>
+                                <th>核心平台</th>
+                                <th>核心成效</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>南京鼓楼医院</td>
+                                <td><strong>52个</strong></td>
+                                <td>"博爱"大模型+湖仓一体</td>
+                                <td>诊疗/管理/服务/科研全面覆盖</td>
+                            </tr>
+                            <tr>
+                                <td>青岛大学附属医院</td>
+                                <td>多场景</td>
+                                <td>湖仓一体+全病种数据库</td>
+                                <td>"青小爱"智能体+达芬奇机器人</td>
+                            </tr>
+                            <tr>
+                                <td>潍坊市人民医院</td>
+                                <td><strong>>90个</strong></td>
+                                <td>"乐道i书"全链式AI病案</td>
+                                <td>诊前诊中诊后全流程覆盖</td>
+                            </tr>
+                            <tr>
+                                <td>深圳龙岗中心医院</td>
+                                <td><strong>>30个</strong></td>
+                                <td>7个基础大模型+区域AI共享</td>
+                                <td>电子病历五级+AI应用矩阵</td>
+                            </tr>
+                            <tr>
+                                <td>嘉兴市第一医院</td>
+                                <td>多场景</td>
+                                <td>数据中台+AI技术架构</td>
+                                <td>四大工程+院长驾驶舱</td>
+                            </tr>
+                            <tr>
+                                <td>广东医附属医院</td>
+                                <td>多场景</td>
+                                <td>LLM+RAG+Ollama本地化</td>
+                                <td>年度计划完成率↑<strong>26%</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="insight-box">
+                        <h4>💡 关键洞察</h4>
+                        <ul>
+                            <li><strong>趋势一：从单点到系统化</strong> — 六家医院均采用"平台+场景"架构（AI中台/大数据平台+N个应用），而非逐一采购独立AI产品。</li>
+                            <li><strong>趋势二：本地化部署是主流</strong> — 广东医附属医院采用LLM+RAG+Ollama全本地化架构，数据"不出院"成为合规底线。</li>
+                            <li><strong>趋势三：数据治理为先</strong> — 南京鼓楼医院40余个专病库、青大附院全病种科研数据库，高质量数据是AI落地的前提。</li>
+                            <li><strong>趋势四：技术评级是基础</strong> — 深圳龙岗中心医院以电子病历五级为AI落地底座，信息化基础决定AI天花板。</li>
+                            <li><strong>趋势五：广东医院领跑</strong> — 六家案例中三家来自广东（深圳、东莞、湛江），珠三角智慧医院建设态势领先。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>四、行业动态</h3>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <a href="https://www.gzch.gov.cn/zwgk/jczwgk/zfbm_5749153/chxwsjkj/gzdt_5749320/202606/t20260605_90481153.html" target="_blank">惠州三院"组团式"帮扶册亨县人民医院信息化建设</a>
+                            <span class="tag-new">🆕 本周最新</span>
+                        </div>
+                        <div class="card-meta">
+                            <span class="source">来源：贵州省人民政府官网</span>
+                            <span class="date">2026-06-05</span>
+                        </div>
+                        <div class="card-summary">
+                            惠州三院信息科专家团队赴贵州省册亨县人民医院开展为期三天的信息化帮扶，围绕电子病历系统建设、AI+医疗应用等议题进行指导，落实东西部医疗协作政策。
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <a href="https://openaxo.com/healthcare/medical-ai-governance-2026-guide" target="_blank">《医疗机构人工智能应用与治理专家共识（2026版）》合规要点解读</a>
+                        </div>
+                        <div class="card-meta">
+                            <span class="source">来源：开放AXO</span>
+                            <span class="date">2026-04-27</span>
+                        </div>
+                        <div class="card-summary">
+                            深度解析2026版共识核心内容：医疗AI三级风险分类管理、数据隐私"不出院"红线、以及临床责任归属三大治理逻辑。三甲医院AI治理合规的权威参考。
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">
+                            <a href="https://www.xzrcyy.com/a/7655.html" target="_blank">徐州瑞慈医院通过智慧医院"643"建设测评，为社会办医树立标杆</a>
+                            <span class="tag-new">🆕 本周最新</span>
+                        </div>
+                        <div class="card-meta">
+                            <span class="source">来源：徐州瑞慈医院</span>
+                            <span class="date">2026-06-17</span>
+                        </div>
+                        <div class="card-summary">
+                            徐州瑞慈医院顺利通过电子病历六级、智慧服务三级、互联互通四甲测评，成为全国首家达成"643"建设目标的社会办医单位，为社会办医信息化建设输出可复制经验。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>五、实施启示</h3>
+                    <div class="insight-box" style="background: #fff3e0; border-left-color: #e65100;">
+                        <h4 style="color: #e65100;">🎯 对禅诚医院的启示</h4>
+                        <ol style="font-size: 13px; color: #555; margin-left: 18px;">
+                            <li><strong>四级平台打底、场景有序拓展</strong> — 参照深圳龙岗模式，以现有电子病历评级为基础，优先在病历质控、AI辅助编码等高ROI场景发力。</li>
+                            <li><strong>注重数据治理投入</strong> — 南京鼓楼医院40余个专病库表明，高质量专病数据是AI落地的前提（契合我院在AI随访中积累的患者数据）。</li>
+                            <li><strong>关注广东同城标杆</strong> — 深圳龙岗、广东医附属等省内医院在AI落地方面领跑，其建设路径和量化数据可作为我院立项汇报的参考依据。</li>
+                            <li><strong>本地化合规部署</strong> — 广东医附属的全本地化LLM+RAG+Ollama方案值得借鉴，满足数据隐私"不出院"红线。</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer">
+            📌 佛山复星禅诚医院数字科技部 | 仅供内部参考<br>
+            <span style="color: #999;">深度专题模式 · 白名单信源 · 中国医院院长年会</span>
+        </div>
+    </div>
+</body>
+</html>
