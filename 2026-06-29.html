@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医院信息化与AI每日简报 2026-06-29</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a3a6b 0%, #1565C0 50%, #1976D2 100%);
+            color: #fff;
+            padding: 32px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after {
+            content: "🏥";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 80px;
+            opacity: 0.15;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .header .date {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .empty-state {
+            padding: 80px 24px;
+            text-align: center;
+        }
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+        .empty-title {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        .empty-desc {
+            font-size: 14px;
+            color: #999;
+            line-height: 1.8;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .reason-box {
+            background: #f8f9fa;
+            border-left: 4px solid #1565C0;
+            padding: 20px;
+            margin: 32px auto;
+            max-width: 540px;
+            text-align: left;
+            border-radius: 4px;
+        }
+        .reason-box h3 {
+            font-size: 16px;
+            color: #1565C0;
+            margin-bottom: 12px;
+        }
+        .reason-box ul {
+            font-size: 14px;
+            color: #666;
+            margin-left: 20px;
+        }
+        .reason-box li {
+            margin-bottom: 8px;
+        }
+        .suggestion-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 24px auto;
+            max-width: 540px;
+            text-align: left;
+            border-radius: 4px;
+        }
+        .suggestion-box h3 {
+            font-size: 16px;
+            color: #e65100;
+            margin-bottom: 12px;
+        }
+        .suggestion-box p {
+            font-size: 14px;
+            color: #666;
+        }
+        .footer {
+            text-align: center;
+            padding: 32px 24px;
+            color: #999;
+            font-size: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>医院信息化与AI每日简报</h1>
+            <div class="date">2026年06月29日（周一）</div>
+        </div>
+
+        <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <div class="empty-title">本期暂停推送</div>
+            <div class="empty-desc">
+                白名单信源内无符合时效窗口的增量内容
+            </div>
+
+            <div class="reason-box">
+                <h3>原因分析</h3>
+                <ul>
+                    <li>已用满5次web_search搜索额度，未使用web_fetch</li>
+                    <li>白名单信源内搜索到的内容：
+                        <ul style="margin-top: 8px;">
+                            <li>nhc.gov.cn / nhsa.gov.cn：搜索结果未命中白名单相关页面</li>
+                            <li>chima.org.cn / chim.org.cn：无相关搜索结果</li>
+                            <li>hc3i.cn / hit180.com / cn-healthcare.com：搜索结果未命中白名单信源内容</li>
+                            <li>e.huawei.com：搜索结果未命中白名单案例内容</li>
+                        </ul>
+                    </li>
+                    <li>非白名单信源（搜狐、知乎、头条号、新浪财经、CSDN等）严格执行红线不收录</li>
+                    <li>严格执行白名单分级、时效窗口及去重规则</li>
+                </ul>
+            </div>
+
+            <div class="suggestion-box">
+                <h3>💡 建议</h3>
+                <p>本次为连续第1个空状态日（距上次推送06-22深度专题已7天），尚未触发深度专题模式（需连续3天空状态）。如后续仍无增量内容，将触发深度专题模式进入策略A（深度专题整合）与策略B（扩展时效窗口至D-30）。</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            📌 佛山复星禅诚医院数字科技部 | 仅供内部参考<br>
+            <span style="color: #999;">本简报严格遵循白名单层级、时效窗口与去重机制</span>
+        </div>
+    </div>
+</body>
+</html>
